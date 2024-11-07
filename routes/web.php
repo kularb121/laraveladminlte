@@ -12,7 +12,13 @@ use App\Http\Controllers\IotApplicationController;
 
 Route::get('/', function () {
     return view('adminlte::page');
-});
+})->middleware('auth');
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::middleware(['auth'])->group(function () {
 
 Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
 Route::get('/devices/create', [DeviceController::class, 'create'])->name('devices.create');
@@ -33,3 +39,6 @@ Route::get('/iotapplications', [IotApplicationController::class, 'index'])->name
 Route::get('/iotapplications/create', [IotApplicationController::class, 'create'])->name('iotapplications.create');
 Route::post('/iotapplications', [IotApplicationController::class, 'store'])->name('iotapplications.store');
 // Route::get('/assets/{asset}/edit', [AssetController::class, 'edit'])->name('assets.edit');
+
+
+});

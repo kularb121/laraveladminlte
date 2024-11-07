@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('iotapplications', function (Blueprint $table) {
+        Schema::table('iot_applications', function (Blueprint $table) {
             $table->unique(['device_id', 'asset_id']);
         });
     }
