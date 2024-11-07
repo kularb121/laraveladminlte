@@ -19,6 +19,9 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard'); // Ensure you have a 'resources/views/dashboard.blade.php' file
+    })->name('dashboard');
 
 Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
 Route::get('/devices/create', [DeviceController::class, 'create'])->name('devices.create');
@@ -42,3 +45,5 @@ Route::post('/iotapplications', [IotApplicationController::class, 'store'])->nam
 
 
 });
+
+require __DIR__.'/auth.php';
