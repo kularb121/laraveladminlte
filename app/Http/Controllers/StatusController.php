@@ -32,4 +32,28 @@ class StatusController extends Controller
         // Redirect to the statuses index page
         return redirect()->route('statuses.index');
     }
+
+    
+    public function edit(Status $status)
+    {
+        return view('statuses.edit', compact('status'));
+    }
+
+    public function update(Request $request, Status $status)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $status->update($validatedData);
+
+        return redirect()->route('statuses.index')->with('success', 'Status updated successfully!');
+    }
+
+    public function destroy(Status $status)
+    {
+        $status->delete();
+
+        return redirect()->route('statuses.index')->with('success', 'Status deleted successfully!');
+    }
 }

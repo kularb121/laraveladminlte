@@ -34,7 +34,18 @@
                     <td>{{ $iotapplication->stop_date }}</td>
                     <td>{{ $iotapplication->status }}</td> 
                     <td>{{ $iotapplication->note }}</td>
-
+                    <td>
+                        <a href="{{ route('iotapplications.edit', $iotapplication->id) }}" class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <form action="{{ route('iotapplications.destroy', $iotapplication->id) }}" method="POST" style="display:inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this IoT Application?')">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </tbody>

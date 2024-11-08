@@ -24,6 +24,15 @@
             <input type="number" name="status" id="status" class="form-control"   
  required>
         </div>
+
+        {{-- <div class="form-group">
+            <label for="status">Status:</label>
+            <select name="status" id="status" class="form-control" required>
+                @foreach ($statuses as $status)
+                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                @endforeach
+            </select>
+        </div> --}}
         <div class="form-group">
             <label for="note">Note:</label>
             <textarea name="note" id="note" class="form-control" required></textarea>   

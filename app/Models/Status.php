@@ -12,4 +12,10 @@ class Status extends Model
     protected $fillable = [
         'name',
     ];
+
+    //This help to show the child data.
+    public function devices()
+    {
+        return $this->hasMany(Device::class, 'status');
+    }
 }

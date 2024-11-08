@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreign('device_id')->references('id')->on('devices');
             $table->foreign('asset_id')->references('id')->on('assets');
             $table->foreign('status')->references('id')->on('statuses'); 
+            $table->unique(['device_id', 'asset_id']);
         });
     }
 

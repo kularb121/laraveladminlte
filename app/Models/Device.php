@@ -15,4 +15,10 @@ class Device extends Model
         'status',
         'note',
     ];
+
+    //This help to show the parent data.
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status');
+    }
 }

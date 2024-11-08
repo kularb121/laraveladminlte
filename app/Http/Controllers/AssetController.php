@@ -32,4 +32,28 @@ class AssetController extends Controller
         // Redirect to the assets index page with a success message
         return redirect()->route('assets.index')->with('success', 'Asset created successfully.');
     }
+
+    public function edit(Asset $asset)
+    {
+        return view('assets.edit', compact('asset'));
+    }
+
+    public function update(Request $request, Asset $asset)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'note' => 'nullable|string',
+        ]);
+
+        $asset->update($validatedData);
+
+        return redirect()->route('assets.index')->with('success', 'Asset updated successfully!');
+    }
+
+    public function destroy(Asset $asset)
+    {
+        $asset->delete();
+
+        return redirect()->route('assets.index')->with('success', 'Asset deleted successfully!');
+    }  
 }

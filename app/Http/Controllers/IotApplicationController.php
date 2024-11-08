@@ -47,5 +47,41 @@ class IotApplicationController extends Controller
         return redirect()->route('iotapplications.index')->with('success', 'IoT Application created successfully!');
     }
 
+    public function edit(IotApplication $iotapplication)
+    {
+        $devices = Device::all();
+        $assets = Asset::all();
+        $statuses = Status::all();
+
+        return view('iotapplications.edit', [
+            'iotapplication' => $iotapplication,
+            'devices' => $devices,
+            'assets' => $assets,
+            'statuses' => $statuses,
+        ]);
+    }
+
+    public function update(Request $request, IotApplication $iotapplication)
+    {
+        $validatedData = $request->validate([
+            'device_id' => 'required|exists:devices,id',
+            'asset_id' => 'required|exists:assets,id',
+            'start_date' => 'required|date',
+            'stop_date' => 'required|date|after_or_equal:start_date',
+            'status' => 'required|exists:statuses,id',
+            'note' => 'nullable|string',
+        ]);
+
+        $iotapplication->update($validatedData);
+
+        return redirect()->route('iotapplications.index')->with('success', 'IoT Application updated successfully!');
+    }
+
+    public function destroy(IotApplication $iotapplication)
+    {
+        $iotapplication->delete();
+
+        return redirect()->route('iotapplications.index')->with('success', 'IoT Application deleted successfully!');
+    }
     // Add other CRUD methods (show, edit, update, destroy) as needed
 }

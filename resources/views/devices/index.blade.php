@@ -7,10 +7,9 @@
 @stop
 
 @section('content')
-    <div class="mb-3"> 
+    <div class="mb-3">
         <a href="{{ route('devices.create') }}" class="btn btn-primary">Add Device</a>
     </div>
-
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -19,6 +18,7 @@
                 <th>Manufacture Date</th>
                 <th>Status</th>
                 <th>Note</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -27,13 +27,20 @@
                     <td>{{ $device->id }}</td>
                     <td>{{ $device->name }}</td>
                     <td>{{ $device->manu_date }}</td>
-                    <td>{{ $device->status }}</td>
+                    <td>{{ $device->status->name ?? 'N/A' }}</td>
                     <td>{{ $device->note }}</td>
-                    {{-- <td>
+                    <td>
                         <a href="{{ route('devices.edit', $device->id) }}" class="btn btn-primary">
-                            <i class="fas fa-edit"></i> Edit 
+                            <i class="fas fa-edit"></i> Edit
                         </a>
-                    </td> --}}
+                        <form action="{{ route('devices.destroy', $device->id) }}" method="POST" style="display:inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this device?')">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
