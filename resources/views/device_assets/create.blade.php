@@ -1,21 +1,37 @@
 @extends('adminlte::page')
 
-@section('title', 'Add Asset')
+@section('title', 'Add Device Asset')
 
 @section('content_header')
-    <h1>Add Asset</h1> 
+    <h1>Add Device Asset</h1>
 @stop
 
 @section('content')
-    <form action="{{ route('assets.store') }}" method="POST">
+    <form action="{{ route('device_assets.store') }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="number">Number:</label>
-            <input type="text" name="number" id="number" class="form-control" required>
+            <label for="device_id">Device:</label>
+            <select name="device_id" id="device_id" class="form-control" required>
+                @foreach ($devices as $device)
+                    <option value="{{ $device->id }}">{{ $device->name }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" name="name" id="name" class="form-control">
+            <label for="asset_id">Asset:</label>
+            <select name="asset_id" id="asset_id" class="form-control" required>
+                @foreach ($assets as $asset)
+                    <option value="{{ $asset->id }}">{{ $asset->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="state_date">Start Date:</label>
+            <input type="date" name="state_date" id="state_date" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="stop_date">Stop Date:</label>
+            <input type="date" name="stop_date" id="stop_date" class="form-control">
         </div>
         <div class="form-group">
             <label for="status_id">Status:</label>

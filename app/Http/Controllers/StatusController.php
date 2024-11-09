@@ -23,14 +23,15 @@ class StatusController extends Controller
     {
         // Validate the request data
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'number' => 'required|string|unique:statuses',
+            'name' => 'nullable|string',
+            'note' => 'nullable|string',
         ]);
 
         // Create a new status
         Status::create($validatedData);
 
-        // Redirect to the statuses index page
-        return redirect()->route('statuses.index');
+        return redirect()->route('statuses.index')->with('success', 'Status created successfully!');
     }
 
     
@@ -42,7 +43,9 @@ class StatusController extends Controller
     public function update(Request $request, Status $status)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'number' => 'required|string|max:255',
+            'name' => 'nullable|string',
+            'note' => 'nullable|string',
         ]);
 
         $status->update($validatedData);

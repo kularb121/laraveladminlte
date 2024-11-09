@@ -14,6 +14,10 @@
             <label for="name">Name:</label>
             <input type="text" name="name" id="name" class="form-control" value="{{ $status->name }}" required>
         </div>
+        <div class="form-group">
+            <label for="note">Note:</label>
+            <textarea name="note" id="note" class="form-control">{{ $status->note }}</textarea>
+        </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
 @stop

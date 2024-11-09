@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Device;
+use App\Models\Customer;
 use App\Models\Status;
 use Illuminate\Http\Request;
-use App\Models\Device; // Import the Device model
 
 
 class DeviceController extends Controller
@@ -17,30 +18,28 @@ class DeviceController extends Controller
 
     public function create()
     {
-        $statuses = Status::all(); // Fetch all statuses
-        return view('devices.create', compact('statuses'));
+        $customers = Customer::all();
+        $statuses = Status::all();
+        return view('devices.create', ['customers' => $customers, 'statuses' => $statuses]);
     }
 
     public function store(Request $request)
     {
-        // Validate the incoming request data (optional but recommended)
-        $request->validate([
-            'name' => 'required|string|max:20',
+        $validatedData = $request->validate([
+            'number' => 'required|string|unique:devices',
+            'name' => 'nullable|string',
+            'status_id' => 'nullable|exists:statuses,id',
+            'mobile_number' => 'required|string',
             'manu_date' => 'required|date',
-            'status' => 'required|integer',
-            'note' => 'required|string|max:384',
+            'customer_id' => 'nullable|exists:customers,id',
+            'note' => 'nullable|string',
+            'note2' => 'nullable|string',
+            'note3' => 'nullable|string',
         ]);
 
-        // Create a new device record in the database
-        Device::create([
-            'name' => $request->input('name'),
-            'manu_date' => $request->input('manu_date'),
-            'status' => $request->input('status'),
-            'note' => $request->input('note'),
-        ]);
+        Device::create($validatedData);
 
-        // Redirect back to the devices index page
-        return redirect()->route('devices.index'); 
+        return redirect()->route('devices.index')->with('success', 'Device created successfully!');
     }
     
     public function edit(Device $device)
@@ -51,10 +50,15 @@ class DeviceController extends Controller
     public function update(Request $request, Device $device)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'number' => 'required|string|unique:devices',
+            'name' => 'nullable|string',
+            'status_id' => 'nullable|exists:statuses,id',
+            'mobile_number' => 'required|string',
             'manu_date' => 'required|date',
-            'status' => 'required|integer',
+            'customer_id' => 'nullable|exists:customers,id',
             'note' => 'nullable|string',
+            'note2' => 'nullable|string',
+            'note3' => 'nullable|string',
         ]);
 
         $device->update($validatedData);

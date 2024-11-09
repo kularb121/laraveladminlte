@@ -13,6 +13,12 @@
             <label for="name">Name:</label>
             <input type="text" name="name" id="name" class="form-control" required>
         </div>
+        <div 
+ class="form-group">
+            <label for="note">Note:</label>
+            <textarea name="note" id="note" class="form-control"></textarea>   
+
+        </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
 @stop

@@ -1,9 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SiteController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\AssetSiteController;
+use App\Http\Controllers\DeviceAssetController;
 use App\Http\Controllers\IotApplicationController;
 
 // Route::get('/', function () {
@@ -46,6 +50,13 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/assets/{asset}', [AssetController::class, 'update'])->name('assets.update');
     Route::delete('/assets/{asset}', [AssetController::class, 'destroy'])->name('assets.destroy');
 
+    Route::get('/deviceassets', [DeviceAssetController::class, 'index'])->name('deviceassets.index');
+    Route::get('/deviceassets/create', [DeviceAssetController::class, 'create'])->name('deviceassets.create');
+    Route::post('deviceassets', [DeviceAssetController::class, 'store'])->name('deviceassets.store');
+    Route::get('/deviceassets/{deviceasset}/edit', [DeviceAssetController::class, 'edit'])->name('deviceassets.edit');
+    Route::put('/deviceassets/{deviceasset}', [DeviceAssetController::class, 'update'])->name('deviceassets.update');
+    Route::delete('/deviceassets/{deviceasset}', [DeviceAssetController::class, 'destroy'])->name('deviceassets.destroy');
+
 
     Route::get('/iotapplications', [IotApplicationController::class, 'index'])->name('iotapplications.index');
     Route::get('/iotapplications/create', [IotApplicationController::class, 'create'])->name('iotapplications.create');
@@ -54,6 +65,26 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/iotapplications/{iotapplication}', [IotApplicationController::class, 'update'])->name('iotapplications.update');
     Route::delete('/iotapplications/{iotapplication}', [IotApplicationController::class, 'destroy'])->name('iotapplications.destroy');
 
+    Route::get('/sites', [SiteController::class, 'index'])->name('sites.index');
+    Route::get('/sites/create', [SiteController::class, 'create'])->name('sites.create');
+    Route::post('sites', [SiteController::class, 'store'])->name('sites.store');
+    Route::get('/sites/{site}/edit', [SiteController::class, 'edit'])->name('sites.edit');
+    Route::put('/sites/{site}', [SiteController::class, 'update'])->name('sites.update');
+    Route::delete('/sites/{site}', [SiteController::class, 'destroy'])->name('sites.destroy');
+
+    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+    Route::post('customers', [CustomerController::class, 'store'])->name('customers.store');
+    Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
+    Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+
+    Route::get('/asset_sites', [AssetSiteController::class, 'index'])->name('asset_sites.index');
+    Route::get('/asset_sites/create', [AssetSiteController::class, 'create'])->name('asset_sites.create');
+    Route::post('asset_sites', [AssetSiteController::class, 'store'])->name('asset_sites.store');
+    Route::get('/asset_sites/{assetSite}/edit', [AssetSiteController::class, 'edit'])->name('asset_sites.edit');
+    Route::put('/asset_sites/{assetSite}', [AssetSiteController::class, 'update'])->name('asset_sites.update');
+    Route::delete('/asset_sites/{assetSite}', [AssetSiteController::class, 'destroy'])->name('asset_sites.destroy');
 });
 
 require __DIR__.'/auth.php';

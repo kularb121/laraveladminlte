@@ -338,65 +338,103 @@ return [
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
+        // [
+        //     'text' => 'multilevel',
+        //     'icon' => 'fas fa-fw fa-share',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'level_one',
+        //             'url' => '#',
+        //         ],
+        //         [
+        //             'text' => 'Devices',
+        //             'url' => 'devices',
+        //         ],
+        //         [
+        //             'text' => 'level_one',
+        //             'url' => '#',
+        //             'submenu' => [
+        //                 [
+        //                     'text' => 'level_two',
+        //                     'url' => '#',
+        //                 ],
+        //                 [
+        //                     'text' => 'level_two',
+        //                     'url' => '#',
+        //                     'submenu' => [
+        //                         [
+        //                             'text' => 'level_three',
+        //                             'url' => '#',
+        //                         ],
+        //                         [
+        //                             'text' => 'level_three',
+        //                             'url' => '#',
+        //                         ],
+        //                     ],
+        //                 ],
+        //             ],
+        //         ],
+        //         [
+        //             'text' => 'level_one',
+        //             'url' => '#',
+        //         ],
+        //     ],
+        // ],
         [
-            'text' => 'multilevel',
+            'text' => 'IoT Application Manager',
             'icon' => 'fas fa-fw fa-share',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'Devices',
+                    'url'  => 'devices', // This should match your route
                 ],
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
+                    'text' => 'Assets',
+                    'url'  => 'assets', // This should match your route
                 ],
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'Asset&Sites',
+                    'url'  => 'asset_sites', // This should match your route
                 ],
+                [
+                    'text' => 'Customers',
+                    'url'  => 'customers', // This should match your route
+                ],                
+                [
+                    'text' => 'Device&Assets',
+                    'url'  => 'device&Assets', // This should match your route
+                ],    
+                [
+                    'text' => 'Sites',
+                    'url'  => 'sites', // This should match your route
+                ],    
+                [
+                    'text' => 'Statuses',
+                    'url'  => 'statuses', // This should match your route
+                ],      
             ],
         ],
-        ['header' => 'IoT Application Manager'],
-        [
-            'text' => 'Devices',
-            'url'  => 'devices', // This should match your route
-            'icon' => 'fas fa-microchip', // Choose an appropriate icon
-        ],
-        [
-            'text' => 'Statuses',
-            'url'  => 'statuses', // This should match your route
-            'icon' => 'fas fa-microchip', // Choose an appropriate icon
-        ],
-        [
-            'text' => 'Assets',
-            'url'  => 'assets', // This should match the route you'll define later
-            'icon' => 'fas fa-warehouse', // Choose an appropriate icon
-        ],
-        [
-            'text' => 'IoT Applications',
-            'url'  => 'iotapplications', // This should match the route you'll define later
-            'icon' => 'fas fa-warehouse', // Choose an appropriate icon
-        ],
+        // ['header' => 'IoT Application Manager'],
+        // [
+        //     'text' => 'Devices',
+        //     'url'  => 'devices', // This should match your route
+        //     'icon' => 'fas fa-microchip', // Choose an appropriate icon
+        // ],
+        // [
+        //     'text' => 'Statuses',
+        //     'url'  => 'statuses', // This should match your route
+        //     'icon' => 'fas fa-microchip', // Choose an appropriate icon
+        // ],
+        // [
+        //     'text' => 'Assets',
+        //     'url'  => 'assets', // This should match the route you'll define later
+        //     'icon' => 'fas fa-warehouse', // Choose an appropriate icon
+        // ],
+        // [
+        //     'text' => 'IoT Applications',
+        //     'url'  => 'iotapplications', // This should match the route you'll define later
+        //     'icon' => 'fas fa-warehouse', // Choose an appropriate icon
+        // ],
     ],
 
     /*

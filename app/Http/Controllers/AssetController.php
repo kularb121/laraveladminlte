@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Asset;
+use App\Models\Status;
+use Illuminate\Http\Request;
 
 class AssetController extends Controller
 {
@@ -15,22 +16,24 @@ class AssetController extends Controller
 
     public function create()
     {
-        return view('assets.create');
+        $statuses = Status::all();
+        return view('assets.create', ['statuses' => $statuses]);
     }
 
     public function store(Request $request)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'name' => 'required|string|max:255',
+        $validatedData = $request->validate([
+            'number' => 'required|string|unique:assets',
+            'name' => 'nullable|string',
+            'status_id' => 'nullable|exists:statuses,id',
             'note' => 'nullable|string',
+            'note2' => 'nullable|string',
+            'note3' => 'nullable|string',
         ]);
 
-        // Create a new asset in the database
-        Asset::create($request->all());
+        Asset::create($validatedData);
 
-        // Redirect to the assets index page with a success message
-        return redirect()->route('assets.index')->with('success', 'Asset created successfully.');
+        return redirect()->route('assets.index')->with('success', 'Asset created successfully!');
     }
 
     public function edit(Asset $asset)
@@ -41,8 +44,12 @@ class AssetController extends Controller
     public function update(Request $request, Asset $asset)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'number' => 'required|string|unique:assets',
+            'name' => 'nullable|string',
+            'status_id' => 'nullable|exists:statuses,id',
             'note' => 'nullable|string',
+            'note2' => 'nullable|string',
+            'note3' => 'nullable|string',
         ]);
 
         $asset->update($validatedData);

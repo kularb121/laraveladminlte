@@ -16,6 +16,8 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Note</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -23,11 +25,12 @@
                 <tr>
                     <td>{{ $status->id }}</td>
                     <td>{{ $status->name }}</td>
+                    <td>{{ $status->note }}</td>
                     <td>
                         <a href="{{ route('statuses.edit', $status->id) }}" class="btn btn-primary">
                             <i class="fas fa-edit"></i> Edit
                         </a>
-                        <form action="{{ route('statuses.destroy', $status->id) }}" method="POST" style="display:inline-block;">
+                        <form action="{{ route('statuses.destroy', $status->id) }}" method="POST" style="display: inline-block;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this status?')">

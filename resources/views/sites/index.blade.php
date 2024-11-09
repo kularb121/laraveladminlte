@@ -1,14 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'Assets')
+@section('title', 'Sites')
 
 @section('content_header')
-    <h1>Assets</h1>
+    <h1>Sites</h1>
 @stop
 
 @section('content')
     <div class="mb-3"> 
-        <a href="{{ route('assets.create') }}" class="btn btn-primary">Add Asset</a>
+        <a href="{{ route('sites.create') }}" class="btn btn-primary">Add Site</a>
     </div>
 
     <table class="table table-bordered table-striped">
@@ -17,7 +17,7 @@
                 <th>ID</th>
                 <th>Number</th>
                 <th>Name</th>
-                <th>Status</th>
+                <th>Customer</th>
                 <th>Note</th>
                 <th>Note 2</th>
                 <th>Note 3</th>
@@ -25,23 +25,23 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($assets as $asset)
+            @foreach ($sites as $site)
                 <tr>
-                    <td>{{ $asset->id }}</td>
-                    <td>{{ $asset->number }}</td>
-                    <td>{{ $asset->name }}</td>
-                    <td>{{ $asset->status_id }}</td> 
-                    <td>{{ $asset->note }}</td>
-                    <td>{{ $asset->note2 }}</td>
-                    <td>{{ $asset->note3 }}</td>
+                    <td>{{ $site->id }}</td>
+                    <td>{{ $site->number }}</td>
+                    <td>{{ $site->name }}</td>
+                    <td>{{ $site->customer->name }}</td> 
+                    <td>{{ $site->note }}</td>
+                    <td>{{ $site->note2 }}</td>
+                    <td>{{ $site->note3 }}</td>
                     <td>
-                        <a href="{{ route('assets.edit', $asset->id) }}" class="btn btn-primary">
+                        <a href="{{ route('sites.edit', $site->id) }}" class="btn btn-primary">
                             <i class="fas fa-edit"></i> Edit 
                         </a>
-                        <form action="{{ route('assets.destroy', $asset->id) }}" method="POST" style="display: inline-block;">
+                        <form action="{{ route('sites.destroy', $site->id) }}" method="POST" style="display: inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this asset?')">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this site?')">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
                         </form>
