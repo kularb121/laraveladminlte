@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Asset extends Model
+class Customer extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'number',
         'name',
-        'status_id',
         'note',
         'note2',
         'note3',

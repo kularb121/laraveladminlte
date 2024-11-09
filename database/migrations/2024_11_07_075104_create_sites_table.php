@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('assets', function (Blueprint $table) {
+        Schema::create('sites', function (Blueprint $table) {
             $table->id();
             $table->string('number')->unique();
             $table->string('name')->nullable();
-            $table->foreignId('status_id')->nullable()->constrained('statuses')->references('id');
+            $table->foreignId('customer_id')->nullable()->constrained('customers')->references('id'); 
             $table->string('note')->nullable();
             $table->string('note2')->nullable();
             $table->string('note3')->nullable();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('assets');
+        Schema::dropIfExists('sites');
     }
 };

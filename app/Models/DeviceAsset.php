@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-class Asset extends Model
+class DeviceAsset extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'number',
-        'name',
+        'device_id',
+        'asset_id',
+        'state_date',
+        'stop_date',
         'status_id',
         'note',
         'note2',

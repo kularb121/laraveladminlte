@@ -10,10 +10,15 @@ class Device extends Model
     use HasFactory;
 
     protected $fillable = [
+        'number',
         'name',
+        'status_id',
+        'mobile_number',
         'manu_date',
-        'status',
+        'customer_id',
         'note',
+        'note2',
+        'note3',
     ];
 
     //This help to show the parent data.
