@@ -402,7 +402,7 @@ return [
                 ],                
                 [
                     'text' => 'Device&Assets',
-                    'url'  => 'device&Assets', // This should match your route
+                    'url'  => 'device_assets', // This should match your route
                 ],    
                 [
                     'text' => 'Sites',

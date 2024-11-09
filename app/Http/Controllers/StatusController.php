@@ -23,8 +23,8 @@ class StatusController extends Controller
     {
         // Validate the request data
         $validatedData = $request->validate([
-            'number' => 'required|string|unique:statuses',
-            'name' => 'nullable|string',
+            'number' => 'nullable|string',
+            'name' => 'required|string|max:255',
             'note' => 'nullable|string',
         ]);
 
@@ -43,8 +43,8 @@ class StatusController extends Controller
     public function update(Request $request, Status $status)
     {
         $validatedData = $request->validate([
-            'number' => 'required|string|max:255',
-            'name' => 'nullable|string',
+            'number' => 'nullable|string',
+            'name' => 'required|string|max:255',
             'note' => 'nullable|string',
         ]);
 

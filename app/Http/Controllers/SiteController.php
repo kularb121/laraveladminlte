@@ -24,8 +24,8 @@ class SiteController extends Controller
     {
         // Validate the incoming request data
         $validatedData = $request->validate([
-            'number' => 'required|string|unique:sites',
-            'name' => 'nullable|string',
+            'number' => 'nullable|string',
+            'name' => 'required|string|unique:sites',
             'customer_id' => 'nullable|exists:customers,id',
             'note' => 'nullable|string',
             'note2' => 'nullable|string',

@@ -13,7 +13,7 @@
             <label for="device_id">Device:</label>
             <select name="device_id" id="device_id" class="form-control" required>
                 @foreach ($devices as $device)
-                    <option value="{{ $device->id }}">{{ $device->name }}</option>
+                    <option value="{{ $device->id }}">{{ $device->number }}</option>
                 @endforeach
             </select>
         </div>

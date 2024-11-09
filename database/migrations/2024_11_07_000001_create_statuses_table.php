@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('number')->unique();   // Unique constraint on name
-            $table->string('name')->nullable();
-            $table->string('note');
+            $table->string('number')->nullable();   // Unique constraint on name
+            $table->string('name')->unique();
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

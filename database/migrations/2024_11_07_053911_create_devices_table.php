@@ -27,7 +27,7 @@ return new class extends Migration
         $table->string('number')->unique();
         $table->string('name')->nullable();
         $table->foreignId('status_id')->nullable()->constrained('statuses')->references('id'); 
-        $table->string('mobile_number');
+        $table->string('mobile_number')->nullable();
         $table->string('manu_date')->default(date('Y-m-d'));
         $table->foreignId('customer_id')->nullable()->constrained('customers')->references('id'); 
         $table->string('note')->nullable();

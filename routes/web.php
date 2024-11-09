@@ -50,12 +50,12 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/assets/{asset}', [AssetController::class, 'update'])->name('assets.update');
     Route::delete('/assets/{asset}', [AssetController::class, 'destroy'])->name('assets.destroy');
 
-    Route::get('/deviceassets', [DeviceAssetController::class, 'index'])->name('deviceassets.index');
-    Route::get('/deviceassets/create', [DeviceAssetController::class, 'create'])->name('deviceassets.create');
-    Route::post('deviceassets', [DeviceAssetController::class, 'store'])->name('deviceassets.store');
-    Route::get('/deviceassets/{deviceasset}/edit', [DeviceAssetController::class, 'edit'])->name('deviceassets.edit');
-    Route::put('/deviceassets/{deviceasset}', [DeviceAssetController::class, 'update'])->name('deviceassets.update');
-    Route::delete('/deviceassets/{deviceasset}', [DeviceAssetController::class, 'destroy'])->name('deviceassets.destroy');
+    Route::get('/device_assets', [DeviceAssetController::class, 'index'])->name('device_assets.index');
+    Route::get('/device_assets/create', [DeviceAssetController::class, 'create'])->name('device_assets.create');
+    Route::post('device_assets', [DeviceAssetController::class, 'store'])->name('device_assets.store');
+    Route::get('/device_assets/{device_asset}/edit', [DeviceAssetController::class, 'edit'])->name('device_assets.edit');
+    Route::put('/device_assets/{device_asset}', [DeviceAssetController::class, 'update'])->name('device_assets.update');
+    Route::delete('/device_assets/{device_asset}', [DeviceAssetController::class, 'destroy'])->name('device_assets.destroy');
 
 
     Route::get('/iotapplications', [IotApplicationController::class, 'index'])->name('iotapplications.index');

@@ -19,4 +19,22 @@ class AssetSite extends Model
         'note2',
         'note3',
     ];
+
+    public function asset()
+    {
+        
+        return $this->belongsTo(Asset::class);
+    }
+
+    public function site()
+    {
+
+        return $this->belongsTo(Site::class);
+    }
+
+    public function status()
+    {
+
+        return $this->belongsTo(Status::class);
+    }
 }

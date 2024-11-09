@@ -15,6 +15,7 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Number</th>
                 <th>Name</th>
                 <th>Note</th>
                 <th>Actions</th>
@@ -24,6 +25,7 @@
             @foreach ($statuses as $status)
                 <tr>
                     <td>{{ $status->id }}</td>
+                    <td>{{ $status->number }}</td> 
                     <td>{{ $status->name }}</td>
                     <td>{{ $status->note }}</td>
                     <td>

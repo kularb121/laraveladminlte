@@ -1,4 +1,3 @@
-HTML
 @extends('adminlte::page')
 
 @section('title', 'Devices')
@@ -36,7 +35,7 @@ HTML
                     <td>{{ $device->status->name ?? 'N/A' }}</td>
                     <td>{{ $device->mobile_number }}</td>
                     <td>{{ $device->manu_date }}</td>
-                    <td>{{ $device->customer->number ?? 'N/A' }}</td>
+                    <td>{{ $device->customer->name ?? 'N/A' }}</td>
                     <td>{{ $device->note }}</td>
                     <td>{{ $device->note2 }}</td>
                     <td>{{ $device->note3 }}</td>

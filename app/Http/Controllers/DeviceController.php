@@ -18,8 +18,12 @@ class DeviceController extends Controller
 
     public function create()
     {
-        $customers = Customer::all();
-        $statuses = Status::all();
+
+        $customers = Customer::orderBy('name', 'asc')->get(); // Fetch customers sorted by name
+        // $customers = Customer::all();
+        $statuses = Status::orderBy('name', 'asc')->get(); // Fetch statuses sorted by name
+         // $statuses = Status::all();       
+        // $statuses = Status::all();
         return view('devices.create', ['customers' => $customers, 'statuses' => $statuses]);
     }
 

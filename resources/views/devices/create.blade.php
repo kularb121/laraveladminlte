@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <label for="mobile_number">Mobile Number:</label>
-            <input type="text" name="mobile_number" id="mobile_number" class="form-control" required>
+            <input type="text" name="mobile_number" id="mobile_number" class="form-control">
         </div>
         <div class="form-group">
             <label for="manu_date">Manufacture Date:</label>
@@ -37,7 +37,7 @@
             <label for="customer_id">Customer:</label>
             <select name="customer_id" id="customer_id" class="form-control">
                 @foreach ($customers as $customer)
-                    <option value="{{ $customer->id }}">{{ $customer->number }}</option> 
+                    <option value="{{ $customer->id }}">{{ $customer->name }}</option> 
                 @endforeach
             </select>
         </div>

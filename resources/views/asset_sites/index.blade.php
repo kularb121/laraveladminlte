@@ -34,7 +34,7 @@
                     <td>{{ $assetSite->site->name }}</td>
                     <td>{{ $assetSite->start_date }}</td>
                     <td>{{ $assetSite->stop_date }}</td>
-                    <td>{{ $assetSite->status_id }}</td> 
+                    <td>{{ $assetSite->status->name }}</td> 
                     <td>{{ $assetSite->note }}</td>
                     <td>{{ $assetSite->note2 }}</td>
                     <td>{{ $assetSite->note3 }}</td>
@@ -45,8 +45,7 @@
                         <form action="{{ route('asset_sites.destroy', $assetSite->id) }}" method="POST" style="display: inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure   
- you want to delete this asset site?')">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this asset site?')">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
                         </form>

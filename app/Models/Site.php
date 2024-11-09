@@ -17,4 +17,11 @@ class Site extends Model
         'note2',
         'note3',
     ];
+
+    //This help to show the parent data from customer.
+    public function customer()
+    {
+
+        return $this->belongsTo(Customer::class);
+    }
 }

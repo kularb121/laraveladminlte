@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('stop_date');
             $table->unsignedBigInteger('status'); 
-            $table->string('note');
+            $table->string('note')->nullable();
             $table->timestamps();
     
             $table->foreign('device_id')->references('id')->on('devices');

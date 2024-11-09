@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('device_id')->constrained('devices')->references('id');
             $table->foreignId('asset_id')->constrained('assets')->references('id');
-            $table->date('state_date')->nullable()->default(now()); 
+            $table->date('start_date')->nullable()->default(now()); 
             $table->date('stop_date')->nullable();
             $table->foreignId('status_id')->nullable()->constrained('statuses')->references('id');
             $table->string('note')->nullable();
             $table->string('note2')->nullable();
             $table->string('note3')->nullable();
-            $table->timestamps(); 
+            $table->timestamps();
+            $table->unique(['device_id', 'asset_id']);
         });
     }
 

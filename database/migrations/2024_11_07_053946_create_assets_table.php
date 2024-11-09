@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
-            $table->string('number')->unique();
-            $table->string('name')->nullable();
+            $table->string('number')->nullable();
+            $table->string('name')->unique();
             $table->foreignId('status_id')->nullable()->constrained('statuses')->references('id');
             $table->string('note')->nullable();
             $table->string('note2')->nullable();

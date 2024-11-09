@@ -16,15 +16,16 @@ class AssetController extends Controller
 
     public function create()
     {
-        $statuses = Status::all();
+        $statuses = Status::orderBy('name', 'asc')->get(); // Fetch statuses sorted by name
+        // $statuses = Status::all();
         return view('assets.create', ['statuses' => $statuses]);
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'number' => 'required|string|unique:assets',
-            'name' => 'nullable|string',
+            'number' => 'nullable|string',
+            'name' => 'required|string|unique:assets',
             'status_id' => 'nullable|exists:statuses,id',
             'note' => 'nullable|string',
             'note2' => 'nullable|string',
@@ -44,8 +45,8 @@ class AssetController extends Controller
     public function update(Request $request, Asset $asset)
     {
         $validatedData = $request->validate([
-            'number' => 'required|string|unique:assets',
-            'name' => 'nullable|string',
+            'number' => 'nullable|string',
+            'name' => 'required|string|unique:assets',
             'status_id' => 'nullable|exists:statuses,id',
             'note' => 'nullable|string',
             'note2' => 'nullable|string',

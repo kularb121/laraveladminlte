@@ -18,4 +18,10 @@ class Asset extends Model
         'note2',
         'note3',
     ];
+
+    public function status()
+    {
+        // return $this->belongsTo(Status::class, 'status');
+        return $this->belongsTo(Status::class);
+    }
 }
