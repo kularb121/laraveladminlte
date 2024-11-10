@@ -33,7 +33,7 @@ class DeviceController extends Controller
             'number' => 'required|string|unique:devices',
             'name' => 'nullable|string',
             'status_id' => 'nullable|exists:statuses,id',
-            'mobile_number' => 'required|string',
+            'mobile_number' => 'nullable|string',
             'manu_date' => 'required|date',
             'customer_id' => 'nullable|exists:customers,id',
             'note' => 'nullable|string',
@@ -46,18 +46,31 @@ class DeviceController extends Controller
         return redirect()->route('devices.index')->with('success', 'Device created successfully!');
     }
     
-    public function edit(Device $device)
+    public function edit($id)
     {
-        return view('devices.edit', compact('device'));
+        $device = Device::findOrFail($id);
+        $statuses = Status::orderBy('name', 'asc')->get(); // Retrieve all statuses
+        $customers = Customer::orderBy('name', 'asc')->get(); 
+        // $statuses = Status::all(); // Retrieve all statuses
+        // $customers = Customer::all(); // Retrieve all customers
+
+        return view('devices.edit', compact('device', 'statuses', 'customers'));       
+        // return view('devices.edit', compact('device'));
     }
+
+    // public function edit(Device $device)
+    // {
+        
+    //     return view('devices.edit', compact('device'));
+    // }
 
     public function update(Request $request, Device $device)
     {
         $validatedData = $request->validate([
-            'number' => 'required|string|unique:devices',
+            'number' => 'required|string|unique:devices,number,' . $device->id,
             'name' => 'nullable|string',
             'status_id' => 'nullable|exists:statuses,id',
-            'mobile_number' => 'required|string',
+            'mobile_number' => 'nullable|string',
             'manu_date' => 'required|date',
             'customer_id' => 'nullable|exists:customers,id',
             'note' => 'nullable|string',

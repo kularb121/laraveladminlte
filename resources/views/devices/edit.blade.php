@@ -7,6 +7,16 @@
 @stop
 
 @section('content')
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
     <form action="{{ route('devices.update', $device->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -30,7 +40,7 @@
         </div>
         <div class="form-group">
             <label for="mobile_number">Mobile Number:</label>
-            <input type="text" name="mobile_number" id="mobile_number" class="form-control" value="{{ $device->mobile_number }}" required>
+            <input type="text" name="mobile_number" id="mobile_number" class="form-control" value="{{ $device->mobile_number }}">
         </div>
         <div class="form-group">
             <label for="manu_date">Manufacture Date:</label>
@@ -41,7 +51,7 @@
             <select name="customer_id" id="customer_id" class="form-control">
                 @foreach ($customers as $customer)
                     <option value="{{ $customer->id }}" {{ $device->customer_id == $customer->id ? 'selected' : '' }}>
-                        {{ $customer->number }} 
+                        {{ $customer->name }} 
                     </option>
                 @endforeach
             </select>

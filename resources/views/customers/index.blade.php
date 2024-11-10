@@ -7,6 +7,15 @@
 @stop
 
 @section('content')
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
     <div class="mb-3"> 
         <a href="{{ route('customers.create') }}" class="btn btn-primary">Add Customer</a>
     </div>
@@ -18,6 +27,8 @@
                 <th>Number</th>
                 <th>Name</th>
                 <th>Note</th>
+                <th>Note2</th>
+                <th>Note3</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -28,6 +39,8 @@
                     <td>{{ $customer->number }}</td>
                     <td>{{ $customer->name }}</td>
                     <td>{{ $customer->note }}</td>
+                    <td>{{ $customer->note2 }}</td>
+                    <td>{{ $customer->note3 }}</td>
                     <td>
                         <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-primary">
                             <i class="fas fa-edit"></i> Edit 

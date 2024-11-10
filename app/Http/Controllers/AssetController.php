@@ -39,14 +39,15 @@ class AssetController extends Controller
 
     public function edit(Asset $asset)
     {
-        return view('assets.edit', compact('asset'));
+        $statuses = Status::orderBy('name', 'asc')->get(); // Fetch statuses sorted by name
+        return view('assets.edit', compact('asset', 'statuses'));
     }
 
     public function update(Request $request, Asset $asset)
     {
         $validatedData = $request->validate([
             'number' => 'nullable|string',
-            'name' => 'required|string|unique:assets',
+            'name' => 'required|string|unique:assets,name,' . $asset->id,
             'status_id' => 'nullable|exists:statuses,id',
             'note' => 'nullable|string',
             'note2' => 'nullable|string',

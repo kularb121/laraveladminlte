@@ -19,9 +19,14 @@ class Asset extends Model
         'note3',
     ];
 
+    /**
+     * Define a many-to-one relationship with the Status model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function status()
     {
         // return $this->belongsTo(Status::class, 'status');
-        return $this->belongsTo(Status::class);
+        return $this->belongsTo(Status::class, 'status_id');
     }
 }

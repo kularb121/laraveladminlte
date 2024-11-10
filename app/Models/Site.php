@@ -18,10 +18,23 @@ class Site extends Model
         'note3',
     ];
 
-    //This help to show the parent data from customer.
+    /**
+     * Define a many-to-one relationship with the Customer model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function customer()
     {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
 
-        return $this->belongsTo(Customer::class);
+    /**
+     * Define a many-to-one relationship with the Status model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id');
     }
 }

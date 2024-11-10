@@ -25,6 +25,8 @@ class CustomerController extends Controller
             'number' => 'nullable|string',
             'name' => 'required|string|unique:customers',
             'note' => 'nullable|string',
+            'note2' => 'nullable|string',
+            'note3' => 'nullable|string',
         ]);
 
         // Create a new customer
@@ -33,5 +35,30 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('success', 'Customer created successfully!');
     }
 
-    // Add other CRUD methods (show, edit, update, destroy) as needed
+    public function edit(Customer $customer)
+    {
+        return view('customers.edit', compact('customer'));
+    }
+
+    public function update(Request $request, Customer $customer)
+    {
+        $validatedData = $request->validate([
+            'number' => 'nullable|string',
+            'name' => 'required|string|unique:customers,name,' . $customer->id,
+            'note' => 'nullable|string',
+            'note2' => 'nullable|string',
+            'note3' => 'nullable|string',
+        ]);
+
+        $customer->update($validatedData);
+
+        return redirect()->route('customers.index')->with('success', 'Customer updated successfully!');
+    }
+
+    public function destroy(Customer $customer)
+    {
+        $customer->delete();
+
+        return redirect()->route('customers.index')->with('success', 'Customer deleted successfully!');
+    }
 }

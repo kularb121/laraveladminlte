@@ -7,6 +7,15 @@
 @stop
 
 @section('content')
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
     <form action="{{ route('customers.store') }}" method="POST">
         @csrf
         <div class="form-group">
@@ -22,6 +31,16 @@
             <label for="note">Note:</label> 
 
             <textarea name="note" id="note" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="note2">Note2:</label> 
+
+            <textarea name="note2" id="note2" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="note3">Note3:</label> 
+
+            <textarea name="note3" id="note3" class="form-control"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>

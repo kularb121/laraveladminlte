@@ -20,21 +20,37 @@ class AssetSite extends Model
         'note3',
     ];
 
+    /**
+     * Define a many-to-one relationship with the Asset model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+
     public function asset()
     {
         
-        return $this->belongsTo(Asset::class);
+        return $this->belongsTo(Asset::class, 'asset_id');
     }
 
+    /**
+     * Define a many-to-one relationship with the Site model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function site()
     {
 
-        return $this->belongsTo(Site::class);
+        return $this->belongsTo(Site::class, 'site_id');
     }
 
+    /**
+     * Define a many-to-one relationship with the Status model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */    
     public function status()
     {
 
-        return $this->belongsTo(Status::class);
+        return $this->belongsTo(Status::class, 'status_id');
     }
 }

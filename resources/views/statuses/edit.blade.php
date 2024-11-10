@@ -7,16 +7,25 @@
 @stop
 
 @section('content')
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
     <form action="{{ route('statuses.update', $status->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="form-group">
             <label for="number">Number:</label>
-            <input type="text" name="number" id="number" class="form-control" value="{{ $status->number }}" required>
+            <input type="text" name="number" id="number" class="form-control" value="{{ $status->number }}">
         </div>
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" name="name" id="name" class="form-control" value="{{ $status->name }}">
+            <input type="text" name="name" id="name" class="form-control" value="{{ $status->name }}" required>
         </div>
         <div class="form-group">
             <label for="note">Note:</label>

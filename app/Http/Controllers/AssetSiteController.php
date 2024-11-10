@@ -12,20 +12,16 @@ class AssetSiteController extends Controller
 {
     public function index()
     {
-        $assetSites = AssetSite::all();
-        return view('asset_sites.index', ['assetSites' => $assetSites]);
+        $assetSites = AssetSite::with(['asset', 'site', 'status'])->get();
+        return view('asset_sites.index', compact('assetSites'));
     }
 
     public function create()
     {
-        $assets = Asset::all();
-        $sites = Site::all();
-        $statuses = Status::all();
-        return view('asset_sites.create', [
-            'assets' => $assets, 
-            'sites' => $sites, 
-            'statuses' => $statuses
-        ]);
+        $assets = Asset::orderBy('name', 'asc')->get();
+        $sites = Site::orderBy('name', 'asc')->get();
+        $statuses = Status::orderBy('name', 'asc')->get();
+        return view('asset_sites.create', compact('assets', 'sites', 'statuses'));
     }
 
     public function store(Request $request)
@@ -46,5 +42,36 @@ class AssetSiteController extends Controller
         return redirect()->route('asset_sites.index')->with('success', 'AssetSite created successfully!');
     }
 
-    // Add other CRUD methods (show, edit, update, destroy) as needed
+    public function edit(AssetSite $assetSite)
+    {
+        $assets = Asset::orderBy('name', 'asc')->get();
+        $sites = Site::orderBy('name', 'asc')->get();
+        $statuses = Status::orderBy('name', 'asc')->get();
+        return view('asset_sites.edit', compact('assetSite', 'assets', 'sites', 'statuses'));
+    }
+
+    public function update(Request $request, AssetSite $assetSite)
+    {
+        $validatedData = $request->validate([
+            'asset_id' => 'required|exists:assets,id',
+            'site_id' => 'required|exists:sites,id',
+            'start_date' => 'nullable|date',
+            'stop_date' => 'nullable|date',
+            'status_id' => 'nullable|exists:statuses,id',
+            'note' => 'nullable|string',
+            'note2' => 'nullable|string',
+            'note3' => 'nullable|string',
+        ]);
+
+        $assetSite->update($validatedData);
+
+        return redirect()->route('asset_sites.index')->with('success', 'Asset Site updated successfully!');
+    }
+
+    public function destroy(AssetSite $assetSite)
+    {
+        $assetSite->delete();
+
+        return redirect()->route('asset_sites.index')->with('success', 'Asset Site deleted successfully!');
+    }
 }
