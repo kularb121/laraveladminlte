@@ -64,7 +64,8 @@ return [
     */
 
     'logo' => '<b>AAS</b>IoT',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    // 'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo_img' => 'images/logo_aas200x200.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -86,11 +87,12 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            // 'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'images/logo_aas200x200.png', // Path to your logo image
             'alt' => 'Auth Logo',
             'class' => '',
-            'width' => 50,
-            'height' => 50,
+            'width' => 200,
+            'height' => 200,
         ],
     ],
 
@@ -257,7 +259,8 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    // 'dashboard_url' => 'home',
+    'dashboard_url' => '/',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -320,24 +323,14 @@ return [
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
-        [
-            'text' => 'pages',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
+        // [
+        //     'text' => 'pages',
+        //     'url' => 'admin/pages',
+        //     'icon' => 'far fa-fw fa-file',
+        //     'label' => 4,
+        //     'label_color' => 'success',
+        // ],
+
         // [
         //     'text' => 'multilevel',
         //     'icon' => 'fas fa-fw fa-share',
@@ -380,9 +373,13 @@ return [
         //         ],
         //     ],
         // ],
+        ['header' => 'APPLICATIONS'],
         [
-            'text' => 'IoT Application Manager',
-            'icon' => 'fas fa-fw fa-share',
+            'text' => 'IoT Manager',
+            // 'icon' => 'fas fa-fw fa-share',<FontAwesomeIcon icon="fa-regular fa-briefcase" />
+            'icon' => 'fas fa-fw fa-satellite-dish',
+            // 'icon' => 'fas fa-fw fa-network-wired',
+            // 'icon' => 'fas fa-fw fa-microchip',
             'submenu' => [
                 [
                     'text' => 'Devices',
@@ -413,6 +410,18 @@ return [
                     'url'  => 'statuses', // This should match your route
                 ],      
             ],
+        ],
+
+        ['header' => 'account_settings'],
+        [
+            'text' => 'profile',
+            'url' => 'profile',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Change Password',
+            'url' => 'profile/change-password',
+            'icon' => 'fas fa-fw fa-lock',
         ],
         // ['header' => 'IoT Application Manager'],
         // [

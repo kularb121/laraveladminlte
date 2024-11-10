@@ -1,13 +1,15 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash; // Import Hash facade
+use Illuminate\Validation\Rules\Password; // Import Password rule
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+
 
 class ProfileController extends Controller
 {
@@ -57,4 +59,26 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+    public function showChangePasswordForm(): View
+    {
+        return view('profile.change-password');
+    }
+
+    /**
+     * Change the user's password.
+     */
+    public function changePassword(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        // $user = Auth::user();
+        $user = $request->user(); // Retrieve the authenticated user        
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('profile.edit')->with('status', 'password-updated');
+    }    
 }

@@ -16,10 +16,19 @@
         </ul>
     </div>
     @endif
-    <div class="mb-3"> 
+    <div class="mb-3 d-flex justify-content-between">
         <a href="{{ route('customers.create') }}" class="btn btn-primary">Add Customer</a>
+        <form action="{{ route('customers.index') }}" method="GET" class="form-inline">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search customers..." value="{{ request('search') }}">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
-
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -57,4 +66,5 @@
             @endforeach
         </tbody>
     </table>
+    {{ $customers->links() }} <!-- Pagination links -->
 @stop

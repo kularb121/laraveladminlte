@@ -8,12 +8,28 @@ use Illuminate\Http\Request;
 
 class AssetController extends Controller
 {
-    public function index()
+    // public function index()
+    // {
+    //     $assets = Asset::all();
+    //     return view('assets.index', compact('assets'));
+    // }
+    public function index(Request $request)
     {
-        $assets = Asset::all();
+        $query = Asset::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('number', 'like', "%{$search}%")
+                  ->orWhere('name', 'like', "%{$search}%")
+                  ->orWhereHas('status', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  });
+        }
+
+        $assets = $query->paginate(10); // Use pagination for better performance
+
         return view('assets.index', compact('assets'));
     }
-
     public function create()
     {
         $statuses = Status::orderBy('name', 'asc')->get(); // Fetch statuses sorted by name

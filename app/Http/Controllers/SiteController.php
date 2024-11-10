@@ -8,9 +8,24 @@ use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $sites = Site::with('customer')->get();
+        $query = Site::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('number', 'like', "%{$search}%")
+                  ->orWhere('name', 'like', "%{$search}%")
+                  ->orWhereHas('customer', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhere('note', 'like', "%{$search}%")
+                  ->orWhere('note2', 'like', "%{$search}%")
+                  ->orWhere('note3', 'like', "%{$search}%");
+        }
+
+        $sites = $query->paginate(10); // Use pagination for better performance
+
         return view('sites.index', compact('sites'));
     }
 

@@ -10,20 +10,37 @@ use Illuminate\Http\Request;
 
 class DeviceController extends Controller
 {
-    public function index()
+    // public function index()
+    // {
+    //     $devices = Device::with('status')->get();
+    //     return view('devices.index', compact('devices'));        
+    // }
+    public function index(Request $request)
     {
-        $devices = Device::with('status')->get();
-        return view('devices.index', compact('devices'));        
+        $query = Device::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('number', 'like', "%{$search}%")
+                  ->orWhere('name', 'like', "%{$search}%")
+                  ->orWhereHas('status', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('customer', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  });
+        }
+
+        $devices = $query->paginate(10); // Use pagination for better performance
+
+        return view('devices.index', compact('devices'));
     }
 
     public function create()
     {
 
         $customers = Customer::orderBy('name', 'asc')->get(); // Fetch customers sorted by name
-        // $customers = Customer::all();
         $statuses = Status::orderBy('name', 'asc')->get(); // Fetch statuses sorted by name
-         // $statuses = Status::all();       
-        // $statuses = Status::all();
         return view('devices.create', ['customers' => $customers, 'statuses' => $statuses]);
     }
 
@@ -46,9 +63,9 @@ class DeviceController extends Controller
         return redirect()->route('devices.index')->with('success', 'Device created successfully!');
     }
     
-    public function edit($id)
+    public function edit(Device $device)
     {
-        $device = Device::findOrFail($id);
+        // $device = Device::findOrFail($id);
         $statuses = Status::orderBy('name', 'asc')->get(); // Retrieve all statuses
         $customers = Customer::orderBy('name', 'asc')->get(); 
         // $statuses = Status::all(); // Retrieve all statuses

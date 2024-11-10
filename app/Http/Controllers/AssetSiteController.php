@@ -10,9 +10,28 @@ use Illuminate\Http\Request;
 
 class AssetSiteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $assetSites = AssetSite::with(['asset', 'site', 'status'])->get();
+        $query = AssetSite::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->whereHas('asset', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('site', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('status', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhere('note', 'like', "%{$search}%")
+                  ->orWhere('note2', 'like', "%{$search}%")
+                  ->orWhere('note3', 'like', "%{$search}%");
+        }
+
+        $assetSites = $query->paginate(10); // Use pagination for better performance
+
         return view('asset_sites.index', compact('assetSites'));
     }
 

@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $user = User::where('email', 'thummasin@gmail.com')->first();
-        $password = 'modx123456';
+        $password = 'modx1234567';
         if ($user) {
             // Update the existing user's password
 

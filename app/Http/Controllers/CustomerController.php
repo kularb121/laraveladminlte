@@ -7,10 +7,22 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::all();
-        return view('customers.index', ['customers' => $customers]);
+        $query = Customer::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('number', 'like', "%{$search}%")
+                  ->orWhere('name', 'like', "%{$search}%")
+                  ->orWhere('note', 'like', "%{$search}%")
+                  ->orWhere('note2', 'like', "%{$search}%")
+                  ->orWhere('note3', 'like', "%{$search}%");
+        }
+
+        $customers = $query->paginate(10); // Use pagination for better performance
+
+        return view('customers.index', compact('customers'));
     }
 
     public function create()

@@ -8,10 +8,20 @@ use App\Models\Status; // Import the Status model
 class StatusController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
-        $statuses = Status::all(); 
-        return view('statuses.index', ['statuses' => $statuses]); 
+        $query = Status::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('number', 'like', "%{$search}%")
+                  ->orWhere('name', 'like', "%{$search}%")
+                  ->orWhere('note', 'like', "%{$search}%");
+        }
+
+        $statuses = $query->paginate(10); // Use pagination for better performance
+
+        return view('statuses.index', compact('statuses'));
     }
 
     public function create()

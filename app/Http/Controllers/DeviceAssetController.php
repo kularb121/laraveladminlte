@@ -10,11 +10,37 @@ use Illuminate\Http\Request;
 
 class DeviceAssetController extends Controller
 {
-    public function index()
+    // public function index()
+    // {
+    //     $device_assets = DeviceAsset::all();
+    //     return view('device_assets.index', ['device_assets' => $device_assets]);
+    // }
+
+    public function index(Request $request)
     {
-        $device_assets = DeviceAsset::all();
-        return view('device_assets.index', ['device_assets' => $device_assets]);
+        $query = DeviceAsset::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->whereHas('device', function ($q) use ($search) {
+                      $q->where('number', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('asset', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('status', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhere('note', 'like', "%{$search}%")
+                  ->orWhere('note2', 'like', "%{$search}%")
+                  ->orWhere('note3', 'like', "%{$search}%");
+        }
+
+        $device_assets = $query->paginate(10); // Use pagination for better performance
+
+        return view('device_assets.index', compact('device_assets'));
     }
+    
 
     public function create()
     {

@@ -5,6 +5,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AssetSiteController;
 use App\Http\Controllers\DeviceAssetController;
@@ -85,6 +86,25 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/asset_sites/{assetSite}/edit', [AssetSiteController::class, 'edit'])->name('asset_sites.edit');
     Route::put('/asset_sites/{assetSite}', [AssetSiteController::class, 'update'])->name('asset_sites.update');
     Route::delete('/asset_sites/{assetSite}', [AssetSiteController::class, 'destroy'])->name('asset_sites.destroy');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.change-password');
+    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password.update');
+    
+
 });
+
+// Other resource routes allow them to accept parameters.
+Route::resource('sites', SiteController::class);
+Route::resource('assets', AssetController::class);
+Route::resource('devices', DeviceController::class);
+Route::resource('statuses', StatusController::class);
+Route::resource('customers', CustomerController::class);
+Route::resource('asset_sites', AssetSiteController::class);
+Route::resource('device_assets', DeviceAssetController::class);
+Route::resource('iotapplications', IotApplicationController::class);
+
 
 require __DIR__.'/auth.php';

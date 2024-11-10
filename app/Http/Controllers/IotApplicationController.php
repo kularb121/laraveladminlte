@@ -10,10 +10,27 @@ use App\Models\IotApplication;
 
 class IotApplicationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $iotApplications = IotApplication::all();
-        return view('iotapplications.index', ['iotapplications' => $iotApplications]);
+        $query = IotApplication::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->whereHas('device', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('asset', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('status', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhere('note', 'like', "%{$search}%");
+        }
+
+        $iotapplications = $query->paginate(10); // Use pagination for better performance
+
+        return view('iotapplications.index', compact('iotapplications'));
     }
 
     public function create()
