@@ -423,6 +423,12 @@ return [
             'url' => 'profile/change-password',
             'icon' => 'fas fa-fw fa-lock',
         ],
+        [
+            'text' => 'Manage User Roles',
+            'url'  => 'users/manage-roles', // Use the route name
+            'icon' => 'fas fa-user-cog', // Choose an appropriate icon
+            'can' => 'edit-user-roles', // Use the gate or policy name
+        ],
         // ['header' => 'IoT Application Manager'],
         // [
         //     'text' => 'Devices',
