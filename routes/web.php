@@ -36,11 +36,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('device_assets', DeviceAssetController::class);
     Route::resource('iotapplications', IotApplicationController::class);
 
-    Route::resource('users', UserController::class);
+
     Route::get('/users/manage-roles', [UserController::class, 'manageRoles'])->name('users.manage-roles');
     Route::get('/users/{user}/edit-role', [UserController::class, 'editRole'])->name('users.editRole');
     Route::put('/users/{user}/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
-    
+    Route::resource('users', UserController::class);    
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
