@@ -65,7 +65,7 @@ return [
 
     'logo' => '<b>AAS</b>IoT',
     // 'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-    'logo_img' => 'images/logo_aas200x200.png',
+    'logo_img' => 'images/logo_dashboard.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -85,14 +85,14 @@ return [
     */
 
     'auth_logo' => [
-        'enabled' => false,
+        'enabled' => true,
         'img' => [
             // 'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'path' => 'images/logo_aas200x200.png', // Path to your logo image
+            'path' => 'images/logo_login.png', // Path to your logo image
             'alt' => 'Auth Logo',
             'class' => '',
-            'width' => 200,
-            'height' => 200,
+            'width' => 75,
+            'height' => 75,
         ],
     ],
 
