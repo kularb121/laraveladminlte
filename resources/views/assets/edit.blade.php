@@ -21,11 +21,11 @@
         @method('PUT')
         <div class="form-group">
             <label for="number">Number:</label>
-            <input type="text" name="number" id="number" class="form-control" value="{{ $asset->number }}" required>
+            <input type="text" name="number" id="number" class="form-control" value="{{ $asset->number }}">
         </div>
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" name="name" id="name" class="form-control" value="{{ $asset->name }}">
+            <input type="text" name="name" id="name" class="form-control" value="{{ $asset->name }}" required>
         </div>
         <div class="form-group">
             <label for="status_id">Status:</label>
