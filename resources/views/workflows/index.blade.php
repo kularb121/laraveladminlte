@@ -86,24 +86,35 @@
         });
 
         drake.on('drop', function(el, target, source, sibling) {
-            var workflowId = target.id.split('-')[1];
-            var userId = el.id.split('-')[1];
+    var workflowId = target.id.split('-')[1]; // Extract workflow ID
+    var userId = el.id.split('-')[1]; // Extract user ID
 
-            $.ajax({
-                url: "{{ route('workflows.assign', ['workflow' => ':workflowId']) }}".replace(':workflowId', workflowId),
-                type: 'POST',
-                data: {
-                    user_id: userId,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    // ... handle success ...
-                },
-                error: function(error) {
-                    // ... handle error ...
-                }
-            });
-        });
+    $.ajax({
+        url: "{{ route('workflows.assign', ['workflow' => ':workflowId']) }}".replace(':workflowId', workflowId),
+        type: 'POST',
+        data: {
+            user_id: userId,
+            _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            // Handle success (e.g., display a success notification)
+            new Noty({
+                type: 'success',
+                text: 'Task assigned successfully!',
+                // ... other Noty options
+            }).show();
+        },
+        error: function(error) {
+            // Handle error (e.g., display an error message)
+            console.error(error);
+            new Noty({
+                type: 'error',
+                text: 'Error assigning task!',
+                // ... other Noty options
+            }).show();
+        }
+    });
+});
 
         // AJAX to update workflow status
         @foreach ($workflows as $workflow)
