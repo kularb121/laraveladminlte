@@ -17,4 +17,9 @@ class Workflow extends Model
         'assigned_to', 
         'created_by', 
     ];
+    
+    public function getStepsAttribute($value)
+    {
+        return json_decode($value, true);
+    }
 }

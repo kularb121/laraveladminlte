@@ -24,6 +24,9 @@ return new class extends Migration
             //Add foreign key constraints if necessary
             $table->foreign('assigned_to')->references('id')->on('users');
             $table->foreign('created_by')->references('id')->on('users');
+
+            // In the `create_workflows_table` migration
+            $table->json('steps')->nullable(); // Store workflow steps and connections as JSON
         });
     }
 

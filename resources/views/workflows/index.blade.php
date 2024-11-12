@@ -59,9 +59,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/noty@3.2.0-beta/lib/noty.min.js"></script>
     <script>
-        jsPlumb.ready(function () {
-            // ... jsPlumb initialization and connection logic ...
-        });
+            jsPlumb.ready(function () {
+                // ...
+
+                // Example dynamic connections (adjust based on your workflow logic)
+                @foreach ($workflows as $workflow)
+                    @if (isset($workflow->steps) && is_array($workflow->steps))
+                        @foreach ($workflow->steps as $step)
+                            @if (isset($step['next']) && $step['next'])
+                                jsPlumb.connect({
+                                    source: 'workflow-{{ $workflow->id }}-step-{{ $step["id"] }}',
+                                    target: 'workflow-{{ $workflow->id }}-step-{{ $step["next"] }}',
+                                    // ... connector styling ...
+                                });
+                            @endif
+                        @endforeach
+                    @endif
+                @endforeach
+            });
 
         var drake = dragula([
             document.getElementById('assignees'), 
@@ -71,7 +86,23 @@
         });
 
         drake.on('drop', function(el, target, source, sibling) {
-            // ... Dragula drop event listener with AJAX call ...
+            var workflowId = target.id.split('-')[1];
+            var userId = el.id.split('-')[1];
+
+            $.ajax({
+                url: "{{ route('workflows.assign', ['workflow' => ':workflowId']) }}".replace(':workflowId', workflowId),
+                type: 'POST',
+                data: {
+                    user_id: userId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    // ... handle success ...
+                },
+                error: function(error) {
+                    // ... handle error ...
+                }
+            });
         });
 
         // AJAX to update workflow status
