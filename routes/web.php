@@ -12,6 +12,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\WorkflowController;
 use App\Http\Controllers\AssetSiteController;
 use App\Http\Controllers\DeviceAssetController;
+use App\Http\Controllers\WorkflowStepController;
 use App\Http\Controllers\IotApplicationController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\UserRegistrationController;
@@ -63,6 +64,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/workflows/{workflow}/assign', [WorkflowController::class, 'assignTask'])->name('workflows.assign');
     Route::post('/workflows/{workflow}/update-status', [WorkflowController::class, 'updateStatus'])->name('workflows.updateStatus');
     Route::post('/workflows/{workflow}/assign', [WorkflowController::class, 'assignTask'])->name('workflows.assign');
+    Route::post('/workflows/{workflow}/steps/{step}/reorder', [WorkflowStepController::class, 'reorder'])->name('workflows.steps.reorder');
+
 });
 
 Route::middleware(['auth', 'can:edit-user-roles'])->prefix('admin')->name('admin.')->group(function () {

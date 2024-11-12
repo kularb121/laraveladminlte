@@ -43,4 +43,15 @@ class WorkflowStepController extends Controller
         $step->delete();
         return redirect()->route('workflows.show', $workflow)->with('success', 'Step removed from workflow!');
     }
+
+    public function reorder(Request $request, Workflow $workflow, WorkflowStep $step)
+    {
+        $validatedData = $request->validate([
+            'order' => 'required|integer',
+        ]);
+
+        $step->update(['order' => $validatedData['order']]);
+
+        return response()->json(['message' => 'Step reordered successfully!']);
+    }
 }

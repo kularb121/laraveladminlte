@@ -189,6 +189,48 @@
                 "responsive": true,
             });
         });
+        // Dragula for reordering steps
+        @foreach ($workflows as $workflow)
+            dragula([document.getElementById('workflow-{{ $workflow->id }}-steps')], {
+                moves: function (el, container, handle) {
+                    return handle.classList.contains('handle'); 
+                }
+            }).on('drop', function(el, target, source, sibling) {
+                var workflowId = target.parentNode.id.split('-')[1]; 
+                var stepId = el.id.split('-')[2]; 
+                var newOrder = Array.from(target.children).indexOf(el) + 1; 
+
+                $.ajax({
+                    url: '/workflows/' + workflowId + '/steps/' + stepId + '/reorder', 
+                    type: 'POST',
+                    data: {
+                        order: newOrder,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        // Handle success (e.g., display a success notification)
+                        new Noty({
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'relax',
+                            text: 'Step reordered successfully!',
+                            timeout: 3000
+                        }).show();
+                    },
+                    error: function(error) {
+                        // Handle error (e.g., display an error message)
+                        console.error(error);
+                        new Noty({
+                            type: 'error',
+                            layout: 'topRight',
+                            theme: 'relax',
+                            text: 'Error reordering step!',
+                            timeout: 3000
+                        }).show();
+                    }
+                });
+            });
+        @endforeach        
     </script>
 @endsection
 
