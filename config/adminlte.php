@@ -429,6 +429,12 @@ return [
             'icon' => 'fas fa-user-cog', // Choose an appropriate icon
             'can' => 'edit-user-roles', // Use the gate or policy name
         ],
+        [
+            'text' => 'Register User',
+            'url'  => 'admin/register',
+            'icon' => 'fas fa-user-plus',
+            'can'  => 'edit-user-roles',
+        ],
         // ['header' => 'IoT Application Manager'],
         // [
         //     'text' => 'Devices',

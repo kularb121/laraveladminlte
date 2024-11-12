@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Edit User')
+@section('title', 'Register User')
 
 @section('content_header')
-    <h1>Edit User</h1>
+    <h1>Register User</h1>
 @stop
 
 @section('content')
@@ -17,13 +17,12 @@
         </div>
     @endif
 
-    <form action="{{ route('users.update', $user->id) }}" method="POST">
+    <form action="{{ route('admin.users.store') }}" method="POST">
         @csrf
-        @method('PUT')
 
         <!-- Name -->
         <div class="input-group mb-3">
-            <input id="name" type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $user->name) }}" required autofocus placeholder="{{ __('Full Name') }}">
+            <input id="name" type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required autofocus placeholder="{{ __('Full Name') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-user"></span>
@@ -38,7 +37,7 @@
 
         <!-- Email Address -->
         <div class="input-group mb-3">
-            <input id="email" type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}" required placeholder="{{ __('Email') }}">
+            <input id="email" type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required placeholder="{{ __('Email') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-envelope"></span>
@@ -53,7 +52,7 @@
 
         <!-- Password -->
         <div class="input-group mb-3">
-            <input id="password" type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('Password') }}">
+            <input id="password" type="password" name="password" class="form-control @error('password') is-invalid @enderror" required placeholder="{{ __('Password') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-lock"></span>
@@ -68,7 +67,7 @@
 
         <!-- Confirm Password -->
         <div class="input-group mb-3">
-            <input id="password_confirmation" type="password" name="password_confirmation" class="form-control" placeholder="{{ __('Confirm Password') }}">
+            <input id="password_confirmation" type="password" name="password_confirmation" class="form-control" required placeholder="{{ __('Confirm Password') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-lock"></span>
@@ -81,7 +80,7 @@
             <select id="role_id" name="role_id" class="form-control @error('role_id') is-invalid @enderror" required>
                 <option value="">{{ __('Select Role') }}</option>
                 @foreach ($roles as $role)
-                    <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                    <option value="{{ $role->id }}">{{ $role->name }}</option>
                 @endforeach
             </select>
             <div class="input-group-append">
@@ -99,7 +98,7 @@
         <div class="row">
             <div class="col-8">
                 <button type="submit" class="btn btn-primary btn-block">
-                    {{ __('Update') }}
+                    {{ __('Register') }}
                 </button>
             </div>
         </div>

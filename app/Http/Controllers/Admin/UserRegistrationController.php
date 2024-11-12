@@ -1,42 +1,41 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Log;
 
-class RegisteredUserController extends Controller
+class UserRegistrationController extends Controller
 {
     /**
-     * Display the registration view.
+     * Show the registration form.
      */
-    public function create(): View
+    public function create()
     {
         $roles = Role::all(); // Fetch all roles
-        return view('auth.register', compact('roles'));
+        return view('admin.register', compact('roles'));
     }
 
     /**
      * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        $request->validate([
+        Log::info('Store method called');
+
+        $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role_id' => ['required', 'exists:roles,id'],
         ]);
+
+        Log::info('Validation passed', $validatedData);
 
         $user = User::create([
             'name' => $request->name,
@@ -45,10 +44,8 @@ class RegisteredUserController extends Controller
             'role_id' => $request->role_id,
         ]);
 
-        event(new Registered($user));
+        Log::info('User created', ['user' => $user]);
 
-        Auth::login($user);
-
-        return redirect()->route('/');
+        return redirect()->route('admin.users.index')->with('success', 'User registered successfully!');
     }
 }

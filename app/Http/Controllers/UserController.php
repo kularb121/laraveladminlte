@@ -21,12 +21,13 @@ class UserController extends Controller
         }
 
         $users = $query->paginate(10); // Use pagination for better performance
-
+        
         return view('users.index', compact('users'));
     }
 
     public function create()
     {
+        $roles = Role::all(); // Fetch all roles
         return view('users.create');
     }
 
@@ -38,6 +39,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'role_id' => 'required|exists:roles,id', // Add validation for role_id
         ]);
 
         $validatedData['password'] = bcrypt($validatedData['password']);
@@ -50,7 +52,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('users.edit', compact('user'));
+        return view('users.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, User $user)
