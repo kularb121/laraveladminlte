@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Workflow;
 use App\Models\WorkflowStep;
 use Illuminate\Http\Request;
 
+
 class WorkflowStepController extends Controller
 {
+    use AuthorizesRequests; // Add this line
     public function store(Request $request, Workflow $workflow)
     {
+        $this->authorize('manageSteps', $workflow); // Use the policy method
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
