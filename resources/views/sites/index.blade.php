@@ -50,16 +50,7 @@
                     <td>{{ $site->note2 }}</td>
                     <td>{{ $site->note3 }}</td>
                     <td>
-                        <a href="{{ route('sites.edit', $site->id) }}" class="btn btn-primary">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                        <form action="{{ route('sites.destroy', $site->id) }}" method="POST" style="display: inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this site?')">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </form>
+                        @include('partials.actions', ['model' => $site, 'resource' => 'sites'])
                     </td>
                 </tr>
             @endforeach

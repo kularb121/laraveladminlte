@@ -62,16 +62,8 @@
                     <td>{{ $device->note2 }}</td>
                     <td>{{ $device->note3 }}</td>
                     <td>
-                        <a href="{{ route('devices.edit', $device->id) }}" class="btn btn-primary">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                        <form action="{{ route('devices.destroy', $device->id) }}" method="POST" style="display: inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this device?')">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </form>
+                        @include('partials.actions', ['model' => $device, 'resource' => 'devices'])
+
                     </td>
                 </tr>
             @endforeach

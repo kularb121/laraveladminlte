@@ -44,7 +44,9 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role ? $user->role->name : 'No Role' }}</td>
                     <td>
-                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">
+                        @include('partials.actions', ['model' => $user, 'resource' => 'users'])
+
+                        {{-- <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">
                             <i class="fas fa-edit"></i> Edit
                         </a>
                         <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
@@ -53,7 +55,7 @@
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
-                        </form>
+                        </form> --}}
                     </td>
                 </tr>
             @endforeach
