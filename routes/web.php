@@ -9,6 +9,7 @@ use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\WorkflowController;
 use App\Http\Controllers\AssetSiteController;
 use App\Http\Controllers\DeviceAssetController;
 use App\Http\Controllers\IotApplicationController;
@@ -57,6 +58,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.change-password');
     Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password.update');
 
+
+    Route::post('/workflows/{workflow}/assign', [WorkflowController::class, 'assignTask'])->name('workflows.assign');
+    Route::post('/workflows/{workflow}/update-status', [WorkflowController::class, 'updateStatus'])->name('workflows.updateStatus');
 });
 
 Route::middleware(['auth', 'can:edit-user-roles'])->prefix('admin')->name('admin.')->group(function () {
