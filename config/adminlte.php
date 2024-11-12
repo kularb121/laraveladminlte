@@ -384,6 +384,7 @@ return [
                 [
                     'text' => 'Devices',
                     'url'  => 'devices', // This should match your route
+                    'can' => 'edit-user-roles', // Use the gate or policy name
                 ],
                 [
                     'text' => 'Assets',
@@ -396,10 +397,12 @@ return [
                 [
                     'text' => 'Customers',
                     'url'  => 'customers', // This should match your route
+                    'can' => 'edit-user-roles', // Use the gate or policy name
                 ],                
                 [
                     'text' => 'Device&Assets',
                     'url'  => 'device_assets', // This should match your route
+                    'can' => 'edit-user-roles', // Use the gate or policy name
                 ],    
                 [
                     'text' => 'Sites',
@@ -408,6 +411,7 @@ return [
                 [
                     'text' => 'Statuses',
                     'url'  => 'statuses', // This should match your route
+                    'can' => 'edit-user-roles', // Use the gate or policy name
                 ],      
             ],
         ],
@@ -422,6 +426,15 @@ return [
             'text' => 'Change Password',
             'url' => 'profile/change-password',
             'icon' => 'fas fa-fw fa-lock',
+        ],
+        [   'header' => 'USER MANAGEMENT',
+            'can' => 'edit-user-roles', // Use the gate or policy name],
+        ],
+        [
+            'text' => 'Users',
+            'url'  => 'users', // This should match your route
+            'icon' => 'fas fa-fw fa-users', // Choose an appropriate icon
+            'can' => 'edit-user-roles', // Use the gate or policy name
         ],
         [
             'text' => 'Manage User Roles',
