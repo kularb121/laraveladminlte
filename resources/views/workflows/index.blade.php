@@ -111,8 +111,11 @@
             var workflowId = target.id.split('-')[1]; 
             var userId = el.id.split('-')[1]; 
 
+            // Construct the URL using string concatenation
+            var url = '/workflows/' + workflowId + '/assign';
+
             $.ajax({
-                url: "{{ route('workflows.assign', ['workflow' => '']) }}" + workflowId,
+                url: url
                 type: 'POST',
                 data: {
                     user_id: userId,

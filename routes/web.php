@@ -66,7 +66,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/workflows/{workflow}/assign', [WorkflowController::class, 'assignTask'])->name('workflows.assign');
 
     Route::post('/workflows/{workflow}/steps/{step}/reorder', [WorkflowStepController::class, 'reorder'])->name('workflows.steps.reorder');
-
+    Route::get('/assets/{asset}/dashboard', [AssetController::class, 'showDashboard'])->name('assets.dashboard');
 });
 
 Route::middleware(['auth', 'can:edit-user-roles'])->prefix('admin')->name('admin.')->group(function () {
@@ -81,6 +81,9 @@ Route::middleware(['auth', 'can:edit-user-roles'])->prefix('admin')->name('admin
     Route::get('/users/{user}/edit-role', [UserController::class, 'editRole'])->name('users.editRole');
     Route::put('/users/{user}/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
     Route::get('/users/manage-roles', [UserController::class, 'manageRoles'])->name('users.manage-roles');
+
+    // Route::get('/assets/{asset}/dashboard', [AssetController::class, 'showDashboard'])->name('assets.dashboard');
+    // Route::get('/assets/{asset}/dashboard', [AssetController::class, 'showDashboard'])->name('assets.dashboard');
 });
 
 require __DIR__.'/auth.php';

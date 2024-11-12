@@ -42,5 +42,8 @@ class Device extends Model
     {
         return $this->belongsTo(Status::class, 'status_id');
     }
-    
+    public function telemetries()
+    {
+        return $this->hasMany(Telemetry::class);
+    }
 }

@@ -51,6 +51,7 @@
                     <td>{{ $asset->note3 }}</td>
                     <td>
                         @include('partials.actions', ['model' => $asset, 'resource' => 'assets'])
+                        <a href="{{ route('assets.dashboard', $asset) }}" class="btn btn-info">View Data</a>
                     </td>
                 </tr>
             @endforeach

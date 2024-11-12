@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Asset;
 use App\Models\Status;
 use Illuminate\Http\Request;
+use App\Models\Telemetry;
 
 class AssetController extends Controller
 {
@@ -76,5 +77,28 @@ class AssetController extends Controller
         $asset->delete();
 
         return redirect()->route('assets.index')->with('success', 'Asset deleted successfully!');
-    }  
+    }
+
+    public function showDashboard(Asset $asset)
+    {
+        $asset->load('devices.telemetries', 'sites'); // Correctly load the 'sites' relationship on the Asset model
+
+        $telemetryData = [];
+        foreach ($asset->devices as $device) {
+            $telemetryData[$device->id] = [
+                'temperature' => $device->telemetries()->where('key', 'temperature')->latest('timestamp')->value('value'),
+                'humidity' => $device->telemetries()->where('key', 'humidity')->latest('timestamp')->value('value'),
+                'temperatureHistory' => $device->telemetries()
+                    ->where('key', 'temperature')
+                    ->where('timestamp', '>=', now()->subHours(10))
+                    ->get(),
+            ];
+        }
+
+        return view('assets.dashboard', [
+            'asset' => $asset,
+            'telemetryData' => $telemetryData,
+        ]);
+
+    }
 }

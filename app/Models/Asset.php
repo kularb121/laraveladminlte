@@ -29,4 +29,14 @@ class Asset extends Model
         // return $this->belongsTo(Status::class, 'status');
         return $this->belongsTo(Status::class, 'status_id');
     }
+    
+    public function devices()
+    {
+        return $this->belongsToMany(Device::class, 'device_assets'); 
+    }
+
+    public function sites()
+    {
+        return $this->belongsToMany(Site::class, 'asset_sites'); 
+    }
 }

@@ -37,4 +37,9 @@ class Site extends Model
     {
         return $this->belongsTo(Status::class, 'status_id');
     }
+
+    public function sites()
+    {
+        return $this->belongsToMany(Site::class, 'asset_sites');
+    }
 }
