@@ -90,7 +90,7 @@
     var userId = el.id.split('-')[1]; // Extract user ID
 
     $.ajax({
-        url: "{{ route('workflows.assign', ['workflow' => ':workflowId']) }}".replace(':workflowId', workflowId),
+        url: "{{ route('workflows.assign', ['workflow' => $workflow->id]) }}", // Use $workflow->id directly
         type: 'POST',
         data: {
             user_id: userId,
