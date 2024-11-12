@@ -20,10 +20,6 @@ Route::get('/', function () {
     return view('adminlte::page');
 })->middleware('auth');
 
-// Route::get('/login', function () {
-//     return view('auth.login');
-// })->name('login');
-
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
     ->middleware('guest')
     ->name('login');
@@ -36,13 +32,7 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
 
-    // Route::get('/dashboard', function () {
-    //     return view('adminlte::page');
-    // })->name('login');
 
     Route::resource('roles', RoleController::class);
     Route::resource('sites', SiteController::class);
@@ -67,8 +57,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.change-password');
     Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password.update');
 
-    // Route::get('/users/{user}/edit-role', [UserController::class, 'editRole'])->name('users.editRole');
-    // Route::put('/users/{user}/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
 });
 
 Route::middleware(['auth', 'can:edit-user-roles'])->prefix('admin')->name('admin.')->group(function () {
@@ -84,13 +72,5 @@ Route::middleware(['auth', 'can:edit-user-roles'])->prefix('admin')->name('admin
     Route::put('/users/{user}/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
     Route::get('/users/manage-roles', [UserController::class, 'manageRoles'])->name('users.manage-roles');
 });
-
-
-// Route::get('/register', [RegisteredUserController::class, 'create'])
-//     ->middleware('guest')
-//     ->name('register');
-
-// Route::post('/register', [RegisteredUserController::class, 'store'])
-//     ->middleware('guest');
 
 require __DIR__.'/auth.php';
