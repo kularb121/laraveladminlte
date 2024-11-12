@@ -112,7 +112,7 @@
             var userId = el.id.split('-')[1]; 
 
             $.ajax({
-                url: "{{ route('workflows.assign', ['workflow' => $workflow->id]) }}",
+                url: "{{ route('workflows.assign', ['workflow' => '']) }}" + workflowId,
                 type: 'POST',
                 data: {
                     user_id: userId,

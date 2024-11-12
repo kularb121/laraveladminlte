@@ -416,6 +416,21 @@ return [
             ],
         ],
 
+        ['header' => 'Workflow_Manager'],
+        [
+            'text' => 'Workflows',
+            'url'  => 'workflows',
+            'icon' => 'fas fa-project-diagram', 
+//            'can' => 'view workflows', // Adjust permission name as needed
+        ],
+        [
+            'text'    => 'Workflow Steps',
+            'url'     => 'workflows/{workflow}/steps', // Example URL structure
+            'icon'    => 'fas fa-tasks',
+//            'can'     => 'manage-workflow-steps', // Adjust permission name as needed
+            'active'  => ['regex:@^workflows/[0-9]+/steps@'], // Adjust regex if needed
+        ],
+
         ['header' => 'account_settings'],
         [
             'text' => 'profile',

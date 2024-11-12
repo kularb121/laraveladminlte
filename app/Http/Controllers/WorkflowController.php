@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Workflow;
-use Illuminate\Http\Request;
 use App\Models\WorkflowStep;
+use Illuminate\Http\Request;
 
 class WorkflowController extends Controller
 {
     public function index()
     {
         $workflows = Workflow::all();
-        return view('workflows.index', compact('workflows'));
+        $users = User::all(); // Fetch all users
+        return view('workflows.index', compact('workflows', 'users'));
     }
 
     public function create()
