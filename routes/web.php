@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('asset_sites', AssetSiteController::class);
     Route::resource('device_assets', DeviceAssetController::class);
     Route::resource('iotapplications', IotApplicationController::class);
+    Route::resource('workflows', WorkflowController::class);
 
     //manage-roles must come before any other main resource
     Route::get('/users/manage-roles', [UserController::class, 'manageRoles'])->name('users.manage-roles');

@@ -10,7 +10,12 @@
     <div id="workflow-visualization">
         @foreach ($workflows as $workflow)
             <div class="workflow-step" id="workflow-{{ $workflow->id }}">
-                {{ $workflow->name }}
+                <h3>{{ $workflow->name }}</h3>
+                <ul>
+                    @foreach ($workflow->steps as $step)
+                        <li id="workflow-{{ $workflow->id }}-step-{{ $step->id }}">{{ $step->name }}</li>
+                    @endforeach
+                </ul>
             </div>
         @endforeach
     </div>
@@ -72,11 +77,11 @@
             // Dynamic connections (adjust based on your workflow logic)
             @foreach ($workflows as $workflow)
                 @if (isset($workflow->steps) && is_array($workflow->steps))
-                    @foreach ($workflow->steps as $step)
-                        @if (isset($step['next']) && $step['next'])
+                    @foreach ($workflow->steps as $index => $step)
+                        @if (isset($workflow->steps[$index + 1])) 
                             jsPlumb.connect({
-                                source: 'workflow-{{ $workflow->id }}-step-{{ $step["id"] }}',
-                                target: 'workflow-{{ $workflow->id }}-step-{{ $step["next"] }}',
+                                source: 'workflow-{{ $workflow->id }}-step-{{ $step->id }}',
+                                target: 'workflow-{{ $workflow->id }}-step-{{ $workflow->steps[$index + 1]->id }}',
                                 connector: ["Flowchart", { cornerRadius: 5 }],
                                 paintStyle: { stroke: "#4CAF50", strokeWidth: 2 },
                                 endpointStyle: { fill: "#4CAF50" },
@@ -189,7 +194,7 @@
 
 @section('css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/noty@3.2.0-beta/lib/noty.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/noty@3.2.0-beta/lib/themes/relax.css"> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/noty@3.2.0-beta/lib/themes/relax.css">
     <style>
         #workflow-visualization {
             border: 1px solid #ccc;

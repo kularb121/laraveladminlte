@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Workflow;
 use Illuminate\Http\Request;
+use App\Models\WorkflowStep;
 
 class WorkflowController extends Controller
 {
@@ -22,10 +23,27 @@ class WorkflowController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            // Add validation rules for other fields as needed
+            'description' => 'nullable|string', 
+            'due_date' => 'nullable|date',
+            'step_name' => 'required|array', 
+            'step_name.*' => 'required|string|max:255', 
+            'step_description' => 'nullable|array',
+            'step_assigned_to' => 'nullable|array',
+            'step_assigned_to.*' => 'nullable|exists:users,id', 
         ]);
 
-        Workflow::create($validatedData);
+        $workflow = Workflow::create($request->only(['name', 'description', 'due_date']));
+
+        $stepsData = [];
+        for ($i = 0; $i < count($validatedData['step_name']); $i++) {
+            $stepsData[] = [
+                'name' => $validatedData['step_name'][$i],
+                'description' => $validatedData['step_description'][$i] ?? null,
+                'assigned_to' => $validatedData['step_assigned_to'][$i] ?? null,
+                'order' => $i + 1, 
+            ];
+        }
+        $workflow->steps()->createMany($stepsData);
 
         return redirect()->route('workflows.index')->with('success', 'Workflow created successfully!');
     }
