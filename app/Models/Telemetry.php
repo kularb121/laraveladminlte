@@ -20,4 +20,9 @@ class Telemetry extends Model
     {
         return $this->belongsTo(Device::class);
     }
+
+    public function attribute()
+    {
+        return $this->belongsTo(DeviceAttribute::class, 'key', 'name');
+    }
 }

@@ -36,6 +36,12 @@ class DeviceController extends Controller
         return view('devices.index', compact('devices'));
     }
 
+    // public function show(Device $device)
+    // {
+    //     // Add your logic here to display the device details
+    //     return view('devices.show', compact('device'));
+    // }
+
     public function create()
     {
 

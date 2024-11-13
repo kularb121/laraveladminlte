@@ -14,6 +14,7 @@ use App\Http\Controllers\AssetSiteController;
 use App\Http\Controllers\DeviceAssetController;
 use App\Http\Controllers\WorkflowStepController;
 use App\Http\Controllers\IotApplicationController;
+use App\Http\Controllers\DeviceAttributeController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\UserRegistrationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -39,13 +40,15 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('sites', SiteController::class);
     Route::resource('assets', AssetController::class);
-    Route::resource('devices', DeviceController::class);
+    // Route::resource('devices', DeviceController::class);
+    Route::resource('devices', DeviceController::class)->except(['show']);
     Route::resource('statuses', StatusController::class);
     Route::resource('customers', CustomerController::class);
     Route::resource('asset_sites', AssetSiteController::class);
     Route::resource('device_assets', DeviceAssetController::class);
     Route::resource('iotapplications', IotApplicationController::class);
     Route::resource('workflows', WorkflowController::class);
+    Route::resource('devices.attributes', DeviceAttributeController::class);
 
     //manage-roles must come before any other main resource
     Route::get('/users/manage-roles', [UserController::class, 'manageRoles'])->name('users.manage-roles');
@@ -66,7 +69,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/workflows/{workflow}/assign', [WorkflowController::class, 'assignTask'])->name('workflows.assign');
 
     Route::post('/workflows/{workflow}/steps/{step}/reorder', [WorkflowStepController::class, 'reorder'])->name('workflows.steps.reorder');
+    
     Route::get('/assets/{asset}/dashboard', [AssetController::class, 'showDashboard'])->name('assets.dashboard');
+    Route::get('/assets/{asset}/dashboard/temperature-history/{device}', [AssetController::class, 'temperatureHistory'])->name('assets.dashboard.temperature-history');
+    Route::get('/assets/{asset}/download/{device}', [AssetController::class, 'download'])->name('assets.download');
+
+    Route::get('/attributes', [DeviceAttributeController::class, 'index'])->name('attributes.index');
+
 });
 
 Route::middleware(['auth', 'can:edit-user-roles'])->prefix('admin')->name('admin.')->group(function () {

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use App\Models\Status;
 // use App\Models\Customer;
+use App\Models\DeviceAttribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -45,5 +46,10 @@ class Device extends Model
     public function telemetries()
     {
         return $this->hasMany(Telemetry::class);
+    }
+
+    public function attributes()
+    {
+        return $this->hasMany(DeviceAttribute::class);
     }
 }

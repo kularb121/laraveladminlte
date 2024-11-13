@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\Device;
 use App\Models\Status;
-use Illuminate\Http\Request;
 use App\Models\Telemetry;
+use Illuminate\Http\Request;
+use League\Csv\Writer;
+
 
 class AssetController extends Controller
 {
@@ -81,18 +84,20 @@ class AssetController extends Controller
 
     public function showDashboard(Asset $asset)
     {
-        $asset->load('devices.telemetries', 'sites'); // Correctly load the 'sites' relationship on the Asset model
+        // $asset->load('devices.telemetries', 'sites'); // Correctly load the 'sites' relationship on the Asset model
+        $asset->load('devices.attributes', 'devices.telemetries', 'sites');
 
         $telemetryData = [];
         foreach ($asset->devices as $device) {
-            $telemetryData[$device->id] = [
-                'temperature' => $device->telemetries()->where('key', 'temperature')->latest('timestamp')->value('value'),
-                'humidity' => $device->telemetries()->where('key', 'humidity')->latest('timestamp')->value('value'),
-                'temperatureHistory' => $device->telemetries()
-                    ->where('key', 'temperature')
-                    ->where('timestamp', '>=', now()->subHours(10))
-                    ->get(),
-            ];
+            foreach ($device->attributes as $attribute) {
+                $telemetry = $device->telemetries()->where('key', $attribute->name)->latest()->first();
+    
+                $telemetryData[$device->id][$attribute->name] = [
+                    'value' => $telemetry?->value,
+                    'unit' => $attribute->unit,
+                    'display_type' => $attribute->display_type,
+                ];
+            }
         }
 
         return view('assets.dashboard', [
@@ -100,5 +105,86 @@ class AssetController extends Controller
             'telemetryData' => $telemetryData,
         ]);
 
+        // Code befor using attributes.
+        // foreach ($asset->devices as $device) {
+        //     $telemetryData[$device->id] = [
+        //         $temperature = $device->telemetries()->where('key', 'temperature')->latest('timestamp')->value('value'),
+        //         $minTemp = 0,
+        //         $maxTemp = 120,
+
+        //         'temperature' => $temperature,
+        //         'humidity' => $device->telemetries()->where('key', 'humidity')->latest('timestamp')->value('value'),
+        //         'temperatureHistory' => $device->telemetries()
+        //             ->where('key', 'temperature')
+        //             ->where('timestamp', '>=', now()->subHours(10))
+        //             ->get(),
+
+        //         'temperaturePercentage' => ($temperature - $minTemp) / ($maxTemp - $minTemp) * 100, 
+        //     ];
+        // }
+
+    }
+    
+    public function temperatureHistory(Asset $asset, Device $device, Request $request)
+    {
+        $hours = $request->input('hours', 10); 
+
+        $temperatureHistory = $device->telemetries()
+            ->where('key', 'temperature')
+            ->where('timestamp', '>=', now()->subHours($hours))
+            ->get();
+
+        // Prepare data for Chart.js
+        $labels = $temperatureHistory->pluck('timestamp')->map(function ($timestamp) {
+            return \Carbon\Carbon::parse($timestamp)->format('Y-m-d H:i:s'); // Parse the string to Carbon        
+        });
+        $data = $temperatureHistory->pluck('value');
+
+        return response()->json([
+            'labels' => $labels,
+            'data' => $data,
+        ]);
+    }
+
+    public function download(Asset $asset, Device $device, Request $request)
+    {
+        $startDate = $request->input('start_date');
+        $untilDate = $request->input('until_date');
+
+        // Fetch telemetry data for the device within the specified date range
+        $telemetries = $device->telemetries()
+            ->whereBetween('timestamp', [$startDate, $untilDate])
+            ->get();
+
+        // Generate CSV data
+        $csvData = $telemetries->map(function ($telemetry) {
+            return [
+                'timestamp' => $telemetry->timestamp,
+                'key' => $telemetry->key,
+                'value' => $telemetry->value,
+            ];
+        });
+
+        // Create the CSV writer
+        // $csv = Writer::createFromString('');
+        // $csv->insertOne(['Timestamp', 'Key', 'Value']); // Add header row
+        // $csv->insertAll($csvData);
+
+        // Create the CSV writer (using a temporary file)
+        $csv = Writer::createFromFileObject(new \SplTempFileObject()); 
+        $csv->insertOne(['Timestamp', 'Key', 'Value']); 
+        $csv->insertAll($csvData);
+
+        // Set headers for download
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="telemetry_data.csv"',
+        ];
+
+        // Return the CSV as a download response (using streamDownload with an anonymous function)
+        return response()->streamDownload(function () use ($csv) {
+            $output = $csv->toString(); 
+            echo $output;
+        }, 'telemetry_data.csv', $headers);
     }
 }

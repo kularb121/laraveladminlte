@@ -463,6 +463,15 @@ return [
             'icon' => 'fas fa-user-plus',
             'can'  => 'edit-user-roles',
         ],
+        [   'header' => 'Attribute Management',
+            'can' => 'edit-user-roles', // Use the gate or policy name],
+        ],
+        [
+            'text' => 'Attributes',
+            'url'  => 'devices/{device}/attributes', // This should match your route
+            'icon' => 'fas fa-fw fa-users', // Choose an appropriate icon
+            'can' => 'edit-user-roles', // Use the gate or policy name
+        ],
         // ['header' => 'IoT Application Manager'],
         // [
         //     'text' => 'Devices',

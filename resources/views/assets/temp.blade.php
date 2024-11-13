@@ -4,19 +4,17 @@
 
 @section('content')
     <h2>{{ $asset->name }} Dashboard</h2>
-
-    @if ($asset->devices->isEmpty())
+    @if ($asset->devices->isEmpty()) 
         <div class="alert alert-warning">
             This asset is not linked to any device. Please contact the administrator.
         </div>
-        <a href="{{ route('assets.index') }}" class="btn btn-secondary">Back</a> 
     @else
         <h3>Associated Sites</h3>
         <ul>
             @foreach ($asset->sites as $site)
                 <li>{{ $site->name }}</li>
             @endforeach
-        </ul>
+        </ul> 
         <div class="form-group">
             <label for="start-date">Start Date:</label>
             <input type="date" id="start-date" class="form-control" value="{{ today()->toDateString() }}">
@@ -27,9 +25,35 @@
             <input type="date" id="until-date" class="form-control" value="{{ today()->toDateString() }}">
         </div>
 
+        <button id="download-button-{{ $device->id }}" class="btn btn-secondary">Download</button>
+
+        <div class="form-group">
+            <label for="time-interval">Time Interval:</label>
+            <select id="time-interval" class="form-control">
+                <option value="10">Last 10 hours</option>
+                <option value="1">Last 1 hour</option>
+                <option value="24">Last 24 hours</option>
+                <option value="168">Last 7 days</option> 
+                <option value="720">Last 30 days</option> 
+            </select>
+        </div>
+        
+        <button id="update-chart-button" class="btn btn-primary">Update Chart</button>
+
         <div class="row">
             @foreach ($asset->devices as $device)
-                <div class="col-md-6">
+                {{-- Test using attributes. --}}
+                @foreach ($device->attributes as $attribute)
+                    @if ($attribute->display_type === 'value')
+                        <p>{{ $attribute->name }}: {{ $telemetryData[$device->id][$attribute->name]['value'] }} {{ $telemetryData[$device->id][$attribute->name]['unit'] }}</p>
+                    @elseif ($attribute->display_type === 'chart')
+                        <canvas id="chart-{{ $device->id }}-{{ $attribute->name }}"></canvas> 
+                        </div>
+                    @endif
+                @endforeach
+                {{-- End of Test using attributes. --}}
+                
+                <div class="col-md-6"> 
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Device: {{ $device->name }}</h3>
@@ -37,7 +61,7 @@
                         <div class="card-body">
                             <div class="thermo-widget">
                                 <div class="thermo-body">
-                                    @if (isset($telemetryData[$device->id]['temperaturePercentage']))
+                                    @if (isset($telemetryData[$device->id]['temperaturePercentage'])) 
                                         <div class="thermo-fill" style="height: {{ $telemetryData[$device->id]['temperaturePercentage'] }}%"></div>
                                     @endif
                                 </div>
@@ -48,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6"> 
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Temperature History for {{ $device->name }}</h3>
@@ -58,43 +82,10 @@
                         </div>
                     </div>
                 </div>
-
-                <button id="download-button-{{ $device->id }}" class="btn btn-secondary">Download {{ $device->name }} Data</button>
-
-                <script>
-                    // Event listener for the "Download" button
-                    $('#download-button-{{ $device->id }}').click(function() {
-                        var startDate = $('#start-date').val();
-                        var untilDate = $('#until-date').val();
-
-                        if (startDate > untilDate) {
-                            alert('Until date must be greater than or equal to start date.');
-                            return;
-                        }
-
-                        var url = "{{ route('assets.download', ['asset' => $asset->id, 'device' => $device->id]) }}";
-                        url += '?start_date=' + startDate + '&until_date=' + untilDate;
-
-                        window.location.href = url;
-                    });
-                </script>
             @endforeach
-        </div>
+        </div>   
+    @endif 
 
-        <div class="form-group">
-            <label for="time-interval">Time Interval:</label>
-            <select id="time-interval" class="form-control">
-                <option value="10">Last 10 hours</option>
-                <option value="1">Last 1 hour</option>
-                <option value="24">Last 24 hours</option>
-                <option value="168">Last 7 days</option>
-                <option value="720">Last 30 days</option>
-            </select>
-        </div>
-
-
-        <button id="update-chart-button" class="btn btn-primary">Update Chart</button>
-    @endif
 @stop
 
 @section('js')
@@ -111,6 +102,7 @@
                 success: function(response) {
                     // Update the chart with the new data
                     var ctx = document.getElementById('temperature-chart-' + deviceId).getContext('2d');
+                    // Destroy the existing chart if it exists
                     if (window.chart && window.chart[deviceId]) {
                         window.chart[deviceId].destroy();
                     }
@@ -142,7 +134,7 @@
                                         text: 'Time'
                                     },
                                     ticks: {
-                                        display: false
+                                        display: false // This will remove the labels
                                     }
                                 }
                             }
@@ -158,7 +150,7 @@
         $(document).ready(function() {
             // Initial chart rendering
             @foreach ($asset->devices as $device)
-                updateChart({{ $device->id }}, 10);
+                updateChart({{ $device->id }}, 10); 
             @endforeach
 
             // Event listener for the "Update Chart" button
@@ -168,25 +160,47 @@
                     updateChart({{ $device->id }}, hours);
                 @endforeach
             });
+
+            // Event listener for the "Download" button
+            $('#download-button-{{ $device->id }}').click(function() {
+                var startDate = $('#start-date').val();
+                var untilDate = $('#until-date').val();
+
+                // Basic date validation
+                if (startDate > untilDate) {
+                    alert('Until date must be greater than or equal to start date.');
+                    return;
+                }
+
+                // Construct the download URL with parameters
+                var url = "{{ route('assets.download', ['asset' => $asset->id, 'device' => ':deviceId']) }}";
+                url = url.replace(':deviceId', {{ $device->id }}); 
+                url += '?start_date=' + startDate + '&until_date=' + untilDate;
+
+                // Trigger the download
+                window.location.href = url;
+            });
         });
     </script>
 @endsection
 
 @section('css')
     <style>
+        /* ... other CSS ... */
+
         .thermo-widget {
-            text-align: center;
-            margin-bottom: 20px;
+            text-align: center; 
+            margin-bottom: 20px; 
         }
 
         .thermo-body {
-            width: 20px;
-            height: 100px;
-            background-color: #ddd;
-            border-radius: 5px;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
+            width: 20px; 
+            height: 100px; 
+            background-color: #ddd; 
+            border-radius: 5px; 
+            margin: 0 auto; 
+            position: relative; 
+            overflow: hidden; 
         }
 
         .thermo-fill {
@@ -194,12 +208,14 @@
             position: absolute;
             bottom: 0;
             width: 100%;
-            transition: height 0.5s ease;
+            transition: height 0.5s ease; 
         }
 
         .thermo-value {
-            font-size: 18px;
-            margin-top: 10px;
+            font-size: 18px; 
+            margin-top: 10px; 
         }
     </style>
 @endsection
+
+
