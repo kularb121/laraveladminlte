@@ -75,20 +75,10 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('success', 'Customer deleted successfully!');
     }
 
-    // public function getAttributes(Request $request, Customer $customer) 
-    // {
-    //     // You can access the $customer object directly here
-
-    //     // 2. Get the attributes (replace with your actual logic)
-    //     $attributes = $customer->attributes()->get(); // Example using Eloquent relationship
-
-    //     // 3. Return the attributes (e.g., as JSON)
-    //     return response()->json($attributes); 
-    // }
     public function getAttributes(Request $request)
     {
-        $attributes = CustomerAttribute::all();
+        $customerAttributes = CustomerAttribute::all(); // Fetch all customer attributes
     
-        return view('customer_attributes.index', ['attributes' => $attributes]); 
+        return view('customer_attributes.index', ['customerAttributes' => $customerAttributes]);
     }
 }

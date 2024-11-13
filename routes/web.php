@@ -56,10 +56,12 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Route for getting customer attributes
-    Route::get('/customers/attributes', [CustomerController::class, 'getAttributes']); 
+    Route::get('/customers/attributes', [CustomerController::class, 'getAttributes'])->name('customer.attributes');
 
     // Resourceful routes for customer attributes (excluding unnecessary actions)
-    Route::get('/customers/attributes/create', [CustomerAttributeController::class, 'create'])->name('customers.attributes.create');
+    Route::get('/customers/attributes/create', [CustomerAttributeController::class, 'create'])->name('customer_attributes.create');
+    // Route::get('/customers/attributes/edit', [CustomerAttributeController::class, 'edit'])->name('customer_attributes.edit');
+    // Route::get('/customers/attributes/create', [CustomerAttributeController::class, 'create'])->name('customers.attributes.create');
     Route::resource('customers.attributes', CustomerAttributeController::class)
         ->except(['show', 'edit', 'update', 'destroy']);
 
