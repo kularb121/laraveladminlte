@@ -43,13 +43,26 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('devices', DeviceController::class);
     Route::resource('devices', DeviceController::class);
     Route::resource('statuses', StatusController::class);
-    Route::resource('customers', CustomerController::class);
     Route::resource('asset_sites', AssetSiteController::class);
     Route::resource('device_assets', DeviceAssetController::class);
     Route::resource('iotapplications', IotApplicationController::class);
     Route::resource('workflows', WorkflowController::class);
-    Route::resource('customer_attributes', CustomerAttributeController::class);
 
+    // Define the 'index' and 'create' routes for customers explicitly
+    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+
+
+    // Use Route::resource for other customer actions, excluding 'show'
+    Route::resource('customers', CustomerController::class)->except(['index', 'create', 'show']); 
+
+    // Define the 'index' and 'create' routes for customer attributes explicitly
+    Route::get('/customers/{customer}/attributes', [CustomerAttributeController::class, 'index'])->name('customers.attributes.index');
+    Route::get('/customers/{customer}/attributes/create', [CustomerAttributeController::class, 'create'])->name('customers.attributes.create');
+
+    // Use Route::resource for other customer attribute actions, excluding 'index', 'create', 'show', 'edit', 'update', and 'destroy'
+    Route::resource('customers.attributes', CustomerAttributeController::class)
+        ->except(['show', 'edit', 'update', 'destroy']); 
 
     //manage-roles must come before any other main resource
     Route::get('/users/manage-roles', [UserController::class, 'manageRoles'])->name('users.manage-roles');

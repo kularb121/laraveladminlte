@@ -8,34 +8,30 @@ use App\Models\CustomerAttribute;
 
 class CustomerAttributeController extends Controller
 {
-    // public function index(Customer $customer)
-    // {
-    //     $attributes = $customer->attributes;
-    //     return view('customers.attributes.index', compact('customer', 'attributes'));
-    // }
     public function index()
     {
-        $customerAttributes = CustomerAttribute::with('customer')->get();
-        return view('customer_attributes.index', compact('customerAttributes'));
+        $attributes = CustomerAttribute::with('customer')->get(); // Fetch all attributes with their associated customers
+        return view('customers.attributes.index', compact('attributes'));
     }
 
-    public function create(Customer $customer)
+    public function create()
     {
         $customers = Customer::all();
-        return view('customers.attributes.create', compact('customer'));
+        return view('customers.attributes.create', compact('customers'));
     }
 
-    public function store(Request $request, Customer $customer)
+    public function store(Request $request)
     {
         $validatedData = $request->validate([
+            'customer_id' => 'required|exists:customers,id',
             'name' => 'required|string|max:255',
             'unit' => 'nullable|string|max:255',
             'display_type' => 'required|string|in:value,chart',
         ]);
 
-        $customer->attributes()->create($validatedData);
+        CustomerAttribute::create($validatedData);
 
-        return redirect()->route('customers.attributes.index', $customer)
+        return redirect()->route('customers.attributes.index', $validatedData['customer_id'])
             ->with('success', 'Attribute added to customer!');
     }
 
