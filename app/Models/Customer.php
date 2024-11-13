@@ -28,13 +28,13 @@ class Customer extends Model
         return $this->hasMany(Site::class, 'customer_id');
     }
 
-    /**
-     * Define a one-to-many relationship with the Device model.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function devices()
     {
         return $this->hasMany(Device::class, 'customer_id');
+    }
+
+    public function attributes()
+    {
+        return $this->hasMany(CustomerAttribute::class, 'customer_id'); // Explicitly define foreign key
     }
 }
