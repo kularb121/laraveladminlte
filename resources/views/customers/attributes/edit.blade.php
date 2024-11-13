@@ -7,45 +7,29 @@
 @stop
 
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ route('customers.attributes.update', $attribute->id) }}" method="POST">
+                @csrf
+                @method('PUT') 
+                <div class="form-group">
+                    <label for="customer_id">Customer ID:</label>
+                    <input type="text" name="customer_id" id="customer_id" class="form-control" value="{{ $attribute->customer_id }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" name="name" id="name" class="form-control" value="{{ $attribute->name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="unit">Unit:</label>
+                    <input type="text" name="unit" id="unit" class="form-control" value="{{ $attribute->unit }}">
+                </div>
+                <div class="form-group">
+                    <label for="display_type">Display Type:</label>
+                    <input type="text" name="display_type" id="display_type" class="form-control" value="{{ $attribute->display_type }}" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
         </div>
-    @endif
-
-    <form action="{{ route('customer_attributes.update', $attribute->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-
-        <div class="form-group">
-            <label for="customer_id">Customer</label>
-            <select name="customer_id" class="form-control" required>
-                <option value="">Select Customer</option>
-                @foreach ($customers as $customer)
-                    <option value="{{ $customer->id }}" {{ $attribute->customer_id == $customer->id ? 'selected' : '' }}>{{ $customer->name }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" name="name" class="form-control" value="{{ old('name', $attribute->name) }}" required>
-        </div>
-
-        <div class="form-group">
-            <label for="unit">Unit</label>
-            <input type="text" name="unit" class="form-control" value="{{ old('unit', $attribute->unit) }}">
-        </div>
-
-        <div class="form-group">
-            <label for="display_type">Display Type</label>
-            <input type="text" name="display_type" class="form-control" value="{{ old('display_type', $attribute->display_type) }}" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
+    </div>
 @stop

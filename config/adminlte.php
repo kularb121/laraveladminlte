@@ -468,7 +468,7 @@ return [
         ],
         [
             'text' => 'Attributes',
-            'url'  => 'customer_attributes', // This should match your route
+            'url'  => 'customers/attributes', // This should match your route
             'icon' => 'fas fa-fw fa-users', // Choose an appropriate icon
             'can' => 'edit-user-roles', // Use the gate or policy name
         ],

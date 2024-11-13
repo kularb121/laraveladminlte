@@ -81,4 +81,9 @@ class CustomerController extends Controller
     
         return view('customer_attributes.index', ['customerAttributes' => $customerAttributes]);
     }
+
+    public function createAttribute()
+    {
+        return view('customers.attributes.create'); // Assuming you create a create.blade.php view in views/customers/attributes
+    }
 }
