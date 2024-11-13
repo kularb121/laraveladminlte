@@ -57,12 +57,15 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('customers', CustomerController::class)->except(['index', 'create', 'show']); 
 
     // Define the 'index' and 'create' routes for customer attributes explicitly
+    Route::get('/customers/attributes', [CustomerController::class, 'getAttributes']);
     Route::get('/customers/{customer}/attributes', [CustomerAttributeController::class, 'index'])->name('customers.attributes.index');
     Route::get('/customers/{customer}/attributes/create', [CustomerAttributeController::class, 'create'])->name('customers.attributes.create');
 
     // Use Route::resource for other customer attribute actions, excluding 'index', 'create', 'show', 'edit', 'update', and 'destroy'
     Route::resource('customers.attributes', CustomerAttributeController::class)
         ->except(['show', 'edit', 'update', 'destroy']); 
+
+
 
     //manage-roles must come before any other main resource
     Route::get('/users/manage-roles', [UserController::class, 'manageRoles'])->name('users.manage-roles');

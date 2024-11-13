@@ -73,4 +73,17 @@ class CustomerController extends Controller
 
         return redirect()->route('customers.index')->with('success', 'Customer deleted successfully!');
     }
+
+    public function getAttributes(Request $request)
+    {
+        // 1. Retrieve the customer (assuming you have a customer ID)
+        $customerId = $request->input('customer_id'); // Or however you get the ID
+        $customer = Customer::findOrFail($customerId);
+
+        // 2. Get the attributes
+        $attributes = $customer->getAttributes(); // Or use a specific method if you have one
+
+        // 3. Return the attributes (e.g., as JSON)
+        return response()->json($attributes); 
+    }
 }
