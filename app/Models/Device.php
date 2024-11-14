@@ -4,9 +4,10 @@ namespace App\Models;
 
 // use App\Models\Status;
 // use App\Models\Customer;
-use App\Models\DeviceAttribute;
+// use App\Models\DeviceAttribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class Device extends Model
 {
@@ -24,6 +25,19 @@ class Device extends Model
         'note3',
     ];
 
+    public $incrementing = false; // Disable auto-incrementing IDs
+    protected $keyType = 'string'; // Set the primary key type to string (for UUIDs)
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (! $model->getKey()) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }
     /**
      * Define a many-to-one relationship with the Customer model.
      *

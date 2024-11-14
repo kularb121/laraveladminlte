@@ -10,31 +10,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    
     public function up(): void
     {
-    //     Schema::create('devices', function (Blueprint $table) {
-    //         $table->id();
-    //         $table->string('name')->unique();
-    //         $table->date('manu_date');
-    //         $table->integer('status');
-    //         $table->text('note')->nullable();
-    //         $table->timestamps(); // Adds created_at and updated_at columns
-
-    //    });
-
-    Schema::create('devices', function (Blueprint $table) {
-        $table->id();
-        $table->string('number')->unique();
-        $table->string('name')->nullable();
-        $table->foreignId('status_id')->nullable()->constrained('statuses')->references('id'); 
-        $table->string('mobile_number')->nullable();
-        $table->string('manu_date')->default(date('Y-m-d'));
-        $table->foreignId('customer_id')->nullable()->constrained('customers')->references('id'); 
-        $table->string('note')->nullable();
-        $table->string('note2')->nullable();
-        $table->string('note3')->nullable();
-        $table->timestamps(); 
-    });
+        Schema::create('devices', function (Blueprint $table) {
+            $table->uuid('id')->primary(); // Change id() to uuid()
+            $table->string('number')->unique();
+            $table->string('name')->nullable();
+            $table->foreignId('status_id')->nullable()->constrained('statuses')->references('id'); 
+            $table->string('mobile_number')->nullable();
+            $table->string('manu_date')->default(date('Y-m-d'));
+            $table->foreignId('customer_id')->nullable()->constrained('customers')->references('id'); 
+            $table->string('note')->nullable();
+            $table->string('note2')->nullable();
+            $table->string('note3')->nullable();
+            $table->timestamps(); 
+        });
     }
 
     /**
