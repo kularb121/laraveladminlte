@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('device_assets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('device_id')->constrained('devices')->references('id');
-            $table->foreignId('asset_id')->constrained('assets')->references('id');
+            $table->uuid('device_id')->constrained('devices'); 
+            $table->uuid('asset_id')->constrained('assets');
             $table->date('start_date')->nullable()->default(now()); 
             $table->date('stop_date')->nullable();
             $table->foreignId('status_id')->nullable()->constrained('statuses')->references('id');

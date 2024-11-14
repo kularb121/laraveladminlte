@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('asset_sites', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('asset_id')->constrained('assets')->references('id');
-            $table->foreignId('site_id')->constrained('sites')->references('id');
+ 
+            $table->uuid('asset_id')->constrained('assets');
+            $table->uuid('site_id')->constrained('sites');
             $table->date('start_date')->nullable()->default(now());
             $table->date('stop_date')->nullable();
             $table->foreignId('status_id')->nullable()->constrained('statuses')->references('id');

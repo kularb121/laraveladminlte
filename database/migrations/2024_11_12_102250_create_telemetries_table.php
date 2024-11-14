@@ -14,12 +14,10 @@ return new class extends Migration
     {
         Schema::create('telemetries', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('device_id');
+            $table->uuid('device_id')->constrained('devices'); 
             $table->timestamp('timestamp');
             $table->string('key');
             $table->string('value');
-
-            $table->foreign('device_id')->references('id')->on('devices');
         });
 
         // Partitioning statement moved inside the up() method

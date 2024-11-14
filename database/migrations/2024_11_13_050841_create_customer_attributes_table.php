@@ -12,18 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customer_attributes', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('customer_id');
+            $table->id()->primary();
+            $table->uuid('customer_id')->nullable()->constrained('customers')->onDelete('cascade');
             $table->string('name');
             $table->string('unit')->nullable();
             $table->string('display_type')->default('value');
             $table->timestamps();
-
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
-
-
 
     /**
      * Reverse the migrations.

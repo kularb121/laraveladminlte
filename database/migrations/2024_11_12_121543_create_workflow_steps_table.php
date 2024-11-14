@@ -18,10 +18,9 @@ return new class extends Migration
             $table->text('description')->nullable(); 
     
             $table->integer('order')->default(0); // To define the order of steps
-            $table->unsignedBigInteger('assigned_to')->nullable(); // User assigned to this step
+            $table->uuid('assigned_to')->constrained('users');  // User assigned to this step
             $table->string('status')->default('pending'); // Step status
             $table->timestamps();
-    
             $table->foreign('workflow_id')->references('id')->on('workflows')->onDelete('cascade');
             // Add foreign key constraint for assigned_to if needed
         });

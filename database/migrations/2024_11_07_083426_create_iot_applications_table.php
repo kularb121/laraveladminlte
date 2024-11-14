@@ -13,16 +13,15 @@ return new class extends Migration
     {
         Schema::create('iot_applications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('device_id');
-            $table->unsignedBigInteger('asset_id');
+            $table->uuid('device_id')->constrained('devices'); 
+            $table->uuid('asset_id')->constrained('assets');
             $table->date('start_date');
             $table->date('stop_date');
             $table->unsignedBigInteger('status'); 
             $table->string('note')->nullable();
             $table->timestamps();
     
-            $table->foreign('device_id')->references('id')->on('devices');
-            $table->foreign('asset_id')->references('id')->on('assets');
+
             $table->foreign('status')->references('id')->on('statuses'); 
             $table->unique(['device_id', 'asset_id']);
         });
