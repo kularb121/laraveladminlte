@@ -57,7 +57,7 @@ class CustomerController extends Controller
     {
         $validatedData = $request->validate([
             'number' => 'nullable|string',
-            'name' => 'required|string|unique:customers,name,' . $customer->id,
+            'name' => 'required|string|unique:customers,name,' . $customer->uuid,
             'note' => 'nullable|string',
             'note2' => 'nullable|string',
             'note3' => 'nullable|string',
@@ -144,12 +144,4 @@ class CustomerController extends Controller
         $customerAttributes = $query->get();
         return view('customers.attributes.index', compact('customerAttributes'));
     }
-
-    // public function allAttributes()
-    // {
-    //     $customerAttributes = CustomerAttribute::all();
-    //     $customers = Customer::all(); // Fetch all customers
-
-    //     return view('customers.attributes.index', compact('customers', 'customerAttributes')); 
-    // }
 }

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('status_id')->nullable()->constrained('statuses')->references('id'); 
             $table->string('mobile_number')->nullable();
             $table->string('manu_date')->default(date('Y-m-d'));
-            $table->foreignId('customer_id')->nullable()->constrained('customers')->references('id'); 
+            $table->uuid('customer_id')->nullable()->constrained('customers'); 
             $table->string('note')->nullable();
             $table->string('note2')->nullable();
             $table->string('note3')->nullable();

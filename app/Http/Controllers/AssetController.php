@@ -41,7 +41,7 @@ class AssetController extends Controller
     {
         $validatedData = $request->validate([
             'number' => 'nullable|string',
-            'name' => 'required|string|unique:assets',
+            'name' => 'required|string|unique:assets,name',
             'status_id' => 'nullable|exists:statuses,id',
             'note' => 'nullable|string',
             'note2' => 'nullable|string',
@@ -63,7 +63,7 @@ class AssetController extends Controller
     {
         $validatedData = $request->validate([
             'number' => 'nullable|string',
-            'name' => 'required|string|unique:assets,name,' . $asset->id,
+            'name' => 'required|string|unique:assets,name,' . $asset->uuid,
             'status_id' => 'nullable|exists:statuses,id',
             'note' => 'nullable|string',
             'note2' => 'nullable|string',
@@ -81,7 +81,6 @@ class AssetController extends Controller
 
         return redirect()->route('assets.index')->with('success', 'Asset deleted successfully!');
     }
-
 
     public function showDashboard(Asset $asset)
     {
@@ -120,68 +119,6 @@ class AssetController extends Controller
             'telemetryData' => $telemetryData,
         ]);
     }
-
-    // public function showDashboard(Asset $asset)
-    // {
-    //     $asset->load('devices.telemetries', 'sites'); // Load necessary relationships
-
-    //     $telemetryData = [];
-    //     foreach ($asset->devices as $device) {
-    //         // Access customer attributes through the device's customer relationship
-    //         $attributes = $device->customer->attributes;
-            
-    //         foreach ($attributes as $attribute) {
-    //             $telemetry = $device->telemetries()->where('key', $attribute->name)->latest('timestamp')->first();
-
-    //             //$telemetry = $device->telemetries()->whereRaw('LOWER(key) = ?', [strtolower($attribute->name)])->latest('timestamp')->first();
-
-    //             $telemetryData[$device->id][$attribute->name] = [
-    //                 'value' => $telemetry?->value,
-    //                 'unit' => $attribute->unit,
-    //                 'display_type' => $attribute->display_type,
-    //             ];
-    
-    //             // Calculate temperature percentage only if the attribute is 'temperature'
-    //             if ($attribute->name === 'temperature' && $telemetry) {
-    //                 $temperature = (float) $telemetry->value;
-    //                 $minTemp = 0; // Replace with your actual minimum temperature
-    //                 $maxTemp = 100; // Replace with your actual maximum temperature
-    //                 $telemetryData[$device->id][$attribute->name]['temperaturePercentage'] = ($temperature - $minTemp) / ($maxTemp - $minTemp) * 100;
-    //             }
-    //         }
-    //     }
-
-    //     return view('assets.dashboard', [
-    //         'asset' => $asset,
-    //         'telemetryData' => $telemetryData,
-    //     ]);
-    // }
-
-
-    // public function showDashboard(Asset $asset)
-    // {
-    //     $asset->load('devices.telemetries', 'sites'); // Load necessary relationships
-
-    //     $telemetryData = [];
-    //     foreach ($asset->devices as $device) {
-    //         // Access customer attributes through the device's customer relationship
-            
-    //         foreach ($device->customer->attributes as $attribute) { 
-    //             $telemetry = $device->telemetries()->where('key', $attribute->name)->latest('timestamp')->first();
-
-    //             $telemetryData[$device->id][$attribute->name] = [
-    //                 'value' => $telemetry?->value,
-    //                 'unit' => $attribute->unit,
-    //                 'display_type' => $attribute->display_type,
-    //             ];
-    //         }
-    //     }
-
-    //     return view('assets.dashboard', [
-    //         'asset' => $asset,
-    //         'telemetryData' => $telemetryData,
-    //     ]);
-    // }
    
     public function temperatureHistory(Asset $asset, Device $device, Request $request)
     {
@@ -250,47 +187,4 @@ class AssetController extends Controller
             echo $output;
         }, 'telemetry_data.csv', $headers);
     }
-
-
-    // public function download(Asset $asset, Device $device, Request $request)
-    // {
-    //     $startDate = $request->input('start_date');
-    //     $untilDate = $request->input('until_date');
-
-    //     // Fetch telemetry data for the device within the specified date range
-    //     $telemetries = $device->telemetries()
-    //         ->whereBetween('timestamp', [$startDate, $untilDate])
-    //         ->get();
-
-    //     // Generate CSV data
-    //     $csvData = $telemetries->map(function ($telemetry) {
-    //         return [
-    //             'timestamp' => $telemetry->timestamp,
-    //             'key' => $telemetry->key,
-    //             'value' => $telemetry->value,
-    //         ];
-    //     });
-
-    //     // Create the CSV writer
-    //     // $csv = Writer::createFromString('');
-    //     // $csv->insertOne(['Timestamp', 'Key', 'Value']); // Add header row
-    //     // $csv->insertAll($csvData);
-
-    //     // Create the CSV writer (using a temporary file)
-    //     $csv = Writer::createFromFileObject(new \SplTempFileObject()); 
-    //     $csv->insertOne(['Timestamp', 'Key', 'Value']); 
-    //     $csv->insertAll($csvData);
-
-    //     // Set headers for download
-    //     $headers = [
-    //         'Content-Type' => 'text/csv',
-    //         'Content-Disposition' => 'attachment; filename="telemetry_data.csv"',
-    //     ];
-
-    //     // Return the CSV as a download response (using streamDownload with an anonymous function)
-    //     return response()->streamDownload(function () use ($csv) {
-    //         $output = $csv->toString(); 
-    //         echo $output;
-    //     }, 'telemetry_data.csv', $headers);
-    // }
 }

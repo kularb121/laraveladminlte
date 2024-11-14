@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary(); // Change id() to uuid()
             $table->string('number')->nullable();
             $table->string('name')->unique();
-            $table->foreignId('customer_id')->nullable()->constrained('customers')->references('id'); 
+            $table->uuid('customer_id')->nullable()->constrained('customers'); 
             $table->string('note')->nullable();
             $table->string('note2')->nullable();
             $table->string('note3')->nullable();

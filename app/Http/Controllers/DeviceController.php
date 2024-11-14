@@ -10,11 +10,6 @@ use Illuminate\Http\Request;
 
 class DeviceController extends Controller
 {
-    // public function index()
-    // {
-    //     $devices = Device::with('status')->get();
-    //     return view('devices.index', compact('devices'));        
-    // }
     public function index(Request $request)
     {
         $query = Device::query();
@@ -35,12 +30,6 @@ class DeviceController extends Controller
 
         return view('devices.index', compact('devices'));
     }
-
-    // public function show(Device $device)
-    // {
-    //     // Add your logic here to display the device details
-    //     return view('devices.show', compact('device'));
-    // }
 
     public function create()
     {
@@ -71,26 +60,16 @@ class DeviceController extends Controller
     
     public function edit(Device $device)
     {
-        // $device = Device::findOrFail($id);
         $statuses = Status::orderBy('name', 'asc')->get(); // Retrieve all statuses
         $customers = Customer::orderBy('name', 'asc')->get(); 
-        // $statuses = Status::all(); // Retrieve all statuses
-        // $customers = Customer::all(); // Retrieve all customers
 
         return view('devices.edit', compact('device', 'statuses', 'customers'));       
-        // return view('devices.edit', compact('device'));
     }
-
-    // public function edit(Device $device)
-    // {
-        
-    //     return view('devices.edit', compact('device'));
-    // }
 
     public function update(Request $request, Device $device)
     {
         $validatedData = $request->validate([
-            'number' => 'required|string|unique:devices,number,' . $device->id,
+            'number' => 'required|string|unique:devices,number,' . $device->uuid,
             'name' => 'nullable|string',
             'status_id' => 'nullable|exists:statuses,id',
             'mobile_number' => 'nullable|string',

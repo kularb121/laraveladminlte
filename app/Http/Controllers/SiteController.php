@@ -63,7 +63,7 @@ class SiteController extends Controller
     {
         $validatedData = $request->validate([
             'number' => 'nullable|string',
-            'name' => 'required|string|unique:sites,name,' . $site->id,
+            'name' => 'required|string|unique:sites,name,' . $site->uuid,
             'customer_id' => 'nullable|exists:customers,id',
             'note' => 'nullable|string',
             'note2' => 'nullable|string',
