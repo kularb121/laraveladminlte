@@ -20,6 +20,7 @@
         "datatables.net": "^2.1.8",
         "datatables.net-bs4": "^2.1.8",
         "dragula": "^3.7.3",
+        "jquery": "^3.7.1",
         "jsplumb": "^2.15.6",
         "noty": "^3.2.0-beta-deprecated",
         "select2": "^4.1.0-rc.0",

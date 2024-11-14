@@ -48,8 +48,8 @@ class Device extends Model
         return $this->hasMany(Telemetry::class);
     }
 
-    public function attributes()
+    public function assets()
     {
-        return $this->hasMany(DeviceAttribute::class);
+        return $this->belongsToMany(Asset::class, 'device_assets');
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\CustomerAttribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Telemetry extends Model
 {
@@ -18,11 +19,11 @@ class Telemetry extends Model
 
     public function device()
     {
-        return $this->belongsTo(Device::class);
+        return $this->belongsTo(Device::class, 'device_id');
     }
 
-    public function attribute()
-    {
-        return $this->belongsTo(DeviceAttribute::class, 'key', 'name');
-    }
+    // public function attribute()
+    // {
+    //     return $this->belongsTo(CustomerAttribute::class, 'key', 'name');
+    // }
 }

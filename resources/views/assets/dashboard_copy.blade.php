@@ -9,7 +9,7 @@
         <div class="alert alert-warning">
             This asset is not linked to any device. Please contact the administrator.
         </div>
-        <a href="{{ route('assets.index') }}" class="btn btn-secondary">Back</a>
+        <a href="{{ route('assets.index') }}" class="btn btn-secondary">Back</a> 
     @else
         <h3>Associated Sites</h3>
         <ul>
@@ -32,18 +32,19 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Device: {{ $device->name }}</h3>
+                            <h3 class="card-title">Device: {{ $device->number }}</h3>
                         </div>
                         <div class="card-body">
-                            @foreach ($asset->customer->attributes as $attribute)
-                                @if ($attribute->display_type === 'value')
-                                    <p>{{ $attribute->name }}: {{ $telemetryData[$device->id][$attribute->name]['value'] ?? 'N/A' }} {{ $telemetryData[$device->id][$attribute->name]['unit'] ?? '' }}</p>
-                                @elseif ($attribute->display_type === 'chart')
-                                    <div class="chart-container"> 
-                                        <canvas id="chart-{{ $device->id }}-{{ $attribute->name }}"></canvas>
-                                    </div>
+                            <div class="thermo-widget">
+                                <div class="thermo-body">
+                                    @if (isset($telemetryData[$device->id]['temperaturePercentage']))
+                                        <div class="thermo-fill" style="height: {{ $telemetryData[$device->id]['temperaturePercentage'] }}%"></div>
+                                    @endif
+                                </div>
+                                @if (isset($telemetryData[$device->id]['temperature']))
+                                    <div class="thermo-value">{{ $telemetryData[$device->id]['temperature'] }} &deg;C</div>
                                 @endif
-                            @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,7 +90,7 @@
                 <option value="168">Last 7 days</option>
                 <option value="720">Last 30 days</option>
             </select>
-        </div>
+        </div> 
 
         <button id="update-chart-button" class="btn btn-primary">Update Chart</button>
     @endif
