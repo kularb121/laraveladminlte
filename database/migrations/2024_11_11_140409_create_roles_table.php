@@ -19,6 +19,8 @@ return new class extends Migration
             $table->json('permissions')->nullable(); // Using JSON to store permissions
             $table->integer('level')->nullable();
             $table->timestamps();
+            
+            $table->uuid('customer_id')->nullable()->constrained('customers');
         });
     }
 

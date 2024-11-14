@@ -41,8 +41,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('assets', AssetController::class)->parameters(['assets' => 'asset:uuid']);
     Route::resource('devices', DeviceController::class)->parameters(['devices' => 'device:uuid']);
     Route::resource('customers', CustomerController::class)->parameters(['customers' => 'customer:uuid'])->except(['show']); 
-    Route::resource('users', UserController::class)->parameters(['users' => 'user:uuid']); 
 
+
+    // Resources using integer IDs
     Route::resource('statuses', StatusController::class);
     Route::resource('asset_sites', AssetSiteController::class);
     Route::resource('device_assets', DeviceAssetController::class);
@@ -68,7 +69,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users/manage-roles', [UserController::class, 'manageRoles'])->name('users.manage-roles');
     Route::get('/users/{user}/edit-role', [UserController::class, 'editRole'])->name('users.editRole');
     Route::put('/users/{user}/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
-    
+    Route::resource('users', UserController::class)->parameters(['users' => 'user:uuid']); 
+        
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

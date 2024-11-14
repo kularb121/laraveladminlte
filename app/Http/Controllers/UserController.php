@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
@@ -28,7 +29,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all(); // Fetch all roles
-        return view('users.create');
+        return view('users.create', ['roles' => $roles]);
     }
 
     public function store(Request $request)
@@ -59,7 +60,7 @@ class UserController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email'=> 'required|string|email|max:255|unique:users,email,' . $user->uuid,
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)], 
             'password' => 'nullable|string|min:8|confirmed', 'role_id' => 'required|exists:roles,id', // Add validation for role_id
             'role_id' => 'required|exists:roles,id', // Add validation for role_id
         ]);
