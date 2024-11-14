@@ -9,7 +9,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('customers.attributes.update', $attribute->id) }}" method="POST">
+            <form action="{{ route('customers.attributes.update', ['customer' => $customer->id, 'attribute' => $attribute->id]) }}" method="POST">
                 @csrf
                 @method('PUT') 
                 <div class="form-group">
@@ -26,7 +26,10 @@
                 </div>
                 <div class="form-group">
                     <label for="display_type">Display Type:</label>
-                    <input type="text" name="display_type" id="display_type" class="form-control" value="{{ $attribute->display_type }}" required>
+                    <select name="display_type" id="display_type" class="form-control" required>
+                        <option value="value" @if ($attribute->display_type == 'value') selected @endif>value</option>
+                        <option value="chart" @if ($attribute->display_type == 'chart') selected @endif>chart</option>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>

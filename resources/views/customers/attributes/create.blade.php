@@ -9,11 +9,17 @@
 @section('content')
     <div class="card">
         <div class="card-body">
+
             <form action="{{ route('customers.attributes.store') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="customer_id">Customer ID:</label>
-                    <input type="text" name="customer_id" id="customer_id" class="form-control" required>
+                    <label for="customer_id">Customer:</label>
+                    <select name="customer_id" id="customer_id" class="form-control"required>
+                        <option value="">Select Customer</option>
+                        @foreach ($customers as $customer)
+                            <option value="{{ $customer->id }}">{{ $customer->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="name">Name:</label>
@@ -25,7 +31,11 @@
                 </div>
                 <div class="form-group">
                     <label for="display_type">Display Type:</label>
-                    <input type="text" name="display_type" id="display_type" class="form-control" required>
+                    <select name="display_type" id="display_type" class="form-control" required>
+                        <option value="type">Select display Type</option>
+                        <option value="value">value</option>
+                        <option value="chart">chart</option>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Create</button>
             </form>

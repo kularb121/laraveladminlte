@@ -14,7 +14,7 @@ use App\Http\Controllers\AssetSiteController;
 use App\Http\Controllers\DeviceAssetController;
 use App\Http\Controllers\WorkflowStepController;
 use App\Http\Controllers\IotApplicationController;
-use App\Http\Controllers\CustomerAttributeController;
+
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\UserRegistrationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -54,24 +54,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
 
+    Route::get('/customers/attributes/create', [CustomerController::class, 'createAttribute'])->name('customers.attributes.create');
 
-    // Route for getting customer attributes
-    Route::get('/customers/attributes', [CustomerController::class, 'getAttributes'])->name('customer.attributes');
+    Route::get('/customers/attributes', [CustomerController::class, 'allAttributes'])->name('customers.attributes.index');
+    Route::post('/customers/attributes', [CustomerController::class, 'storeAttribute'])->name('customers.attributes.store');
 
-    // Route to handle the creation of a new customer attribute (if needed)
-    Route::post('/customers/attributes', [CustomerController::class, 'storeAttribute'])->name('customers.attributes.store'); 
+    Route::get('/customers/attributes/create', [CustomerController::class, 'createAttribute'])->name('customers.attributes.create');
 
-
-    // Resourceful routes for customer attributes (excluding unnecessary actions)
-    Route::get('/customers/attributes/create', [CustomerAttributeController::class, 'create'])->name('customer.attributes.create');
-    // Route::get('/customers/attributes/edit', [CustomerAttributeController::class, 'edit'])->name('customer_attributes.edit');
-    // Route::get('/customers/attributes/create', [CustomerAttributeController::class, 'create'])->name('customers.attributes.create');
-    Route::resource('customers.attributes', CustomerAttributeController::class)
-    ->except(['index', 'create', 'show', 'edit', 'update', 'destroy', 'store']);
-
-    // Explicitly define the 'index' and 'create' routes for customer attributes
-    Route::get('/customers/{customer}/attributes', [CustomerAttributeController::class, 'index'])->name('customers.attributes.index');
-    Route::get('/customers/{customer}/attributes/create', [CustomerAttributeController::class, 'create'])->name('customers.attributes.create');
+    Route::get('/customers/attributes/{attribute}/edit', [CustomerController::class, 'editAttribute'])->name('customers.attributes.edit');
+    Route::put('/customers/attributes/{attribute}', [CustomerController::class, 'updateAttribute'])->name('customers.attributes.update');
+    Route::delete('/customers/attributes/{attribute}', [CustomerController::class, 'destroyAttribute'])->name('customers.attributes.destroy');
 
 
 

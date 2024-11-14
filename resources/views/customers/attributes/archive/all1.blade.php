@@ -15,25 +15,7 @@
                 </div>
             @endif
 
-            {{-- <a href="{{ route('customers.attributes.create') }}" class="btn btn-primary mb-3">Create Attribute</a>  --}}
-
-
-            
-            <div class="mb-3 d-flex justify-content-between">
-                <a href="{{ route('customers.attributes.create') }}" class="btn btn-primary">Create Attribute</a>
-                <form action="{{ route('customers.attributes.index') }}" method="GET" class="form-inline">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search attributes..." value="{{ request('search') }}">
-                        <div class="input-group-append">
-                            <button class="btn btn-secondary" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-
+            <a href="{{ route('customers.attributes.create') }}" class="btn btn-primary mb-3">Create Attribute</a> 
 
             <table class="table table-bordered">
                 <thead>

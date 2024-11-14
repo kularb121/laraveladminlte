@@ -75,15 +75,81 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('success', 'Customer deleted successfully!');
     }
 
-    public function getAttributes(Request $request)
+    public function attributes(Customer $customer) 
     {
-        $customerAttributes = CustomerAttribute::all(); // Fetch all customer attributes
-    
-        return view('customer_attributes.index', ['customerAttributes' => $customerAttributes]);
+        $attributes = $customer->attributes; 
+        return view('customers.attributes.index', compact('customer', 'attributes')); 
     }
 
     public function createAttribute()
     {
-        return view('customers.attributes.create'); // Assuming you create a create.blade.php view in views/customers/attributes
+        $customerAttributes = CustomerAttribute::orderBy('name', 'asc')->get(); // Fetch all customer attributes with the associated customer
+        $customers = Customer::orderBy('name', 'asc')->get(); // Fetch customers sorted by name
+        return view('customers.attributes.create', compact('customerAttributes', 'customers'));
     }
+
+    public function storeAttribute(Request $request)
+    {
+        $validatedData = $request->validate([
+            'customer_id' => 'required|exists:customers,id',            
+            'name' => 'required|string|max:255',
+            'unit' => 'nullable|string|max:255',
+            'display_type' => 'required|string|in:value,chart',
+        ]);
+
+        CustomerAttribute::create($validatedData); 
+
+        return redirect()->route('customers.attributes.index')->with('success', 'Attribute created!');
+    }
+
+    public function editAttribute(Customer $customer, CustomerAttribute $attribute)
+    {
+        return view('customers.attributes.edit', compact('customer', 'attribute'));
+    }
+
+    public function updateAttribute(Request $request, Customer $customer, CustomerAttribute $attribute)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'unit' => 'nullable|string|max:255',
+            'display_type' => 'required|string|in:value,chart',
+        ]);
+
+        $attribute->update($validatedData);
+
+        return redirect()->route('customers.attributes.index', $customer)
+            ->with('success', 'Attribute updated!');
+    }
+
+    public function destroyAttribute(Customer $customer, CustomerAttribute $attribute)
+    {
+        $attribute->delete();
+        return redirect()->route('customers.attributes.index')
+            ->with('success', 'Attribute deleted!');
+    }
+
+    public function allAttributes(Request $request)
+    {
+        $query = CustomerAttribute::with('customer');
+    
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('unit', 'like', "%{$search}%") 
+                  ->orWhereHas('customer', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  });
+        }
+    
+        $customerAttributes = $query->get();
+        return view('customers.attributes.index', compact('customerAttributes'));
+    }
+
+    // public function allAttributes()
+    // {
+    //     $customerAttributes = CustomerAttribute::all();
+    //     $customers = Customer::all(); // Fetch all customers
+
+    //     return view('customers.attributes.index', compact('customers', 'customerAttributes')); 
+    // }
 }
