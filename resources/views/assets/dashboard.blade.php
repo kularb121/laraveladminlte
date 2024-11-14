@@ -27,6 +27,21 @@
             <input type="date" id="until-date" class="form-control" value="{{ today()->toDateString() }}">
         </div>
 
+        <button id="download-button" class="btn btn-secondary">Download</button> 
+
+        <div class="form-group">
+            <label for="time-interval">Time Interval:</label>
+            <select id="time-interval" class="form-control">
+                <option value="10">Last 10 hours</option>
+                <option value="1">Last 1 hour</option>
+                <option value="24">Last 24 hours</option>
+                <option value="168">Last 7 days</option>
+                <option value="720">Last 30 days</option>
+            </select>
+        </div>
+
+        <button id="update-chart-button" class="btn btn-primary">Update Chart</button>
+
         <div class="row">
             @foreach ($asset->devices as $device)
                 <div class="col-md-6">
@@ -35,15 +50,26 @@
                             <h3 class="card-title">Device: {{ $device->name }}</h3>
                         </div>
                         <div class="card-body">
-                            @foreach ($asset->customer->attributes as $attribute)
+                            @foreach ($device->customer->attributes as $attribute) 
                                 @if ($attribute->display_type === 'value')
                                     <p>{{ $attribute->name }}: {{ $telemetryData[$device->id][$attribute->name]['value'] ?? 'N/A' }} {{ $telemetryData[$device->id][$attribute->name]['unit'] ?? '' }}</p>
                                 @elseif ($attribute->display_type === 'chart')
-                                    <div class="chart-container"> 
+                                    <div class="chart-container">
                                         <canvas id="chart-{{ $device->id }}-{{ $attribute->name }}"></canvas>
                                     </div>
                                 @endif
                             @endforeach
+
+                            <div class="thermo-widget">
+                                <div class="thermo-body">
+                                    @if (isset($telemetryData[$device->id]['temperature']['temperaturePercentage'])) 
+                                        <div class="thermo-fill" style="height: {{ $telemetryData[$device->id]['temperature']['temperaturePercentage'] }}%"></div> 
+                                    @endif
+                                </div>
+                                @if (isset($telemetryData[$device->id]['temperature']['value']))
+                                    <div class="thermo-value">{{ $telemetryData[$device->id]['temperature']['value'] }} &deg;C</div> 
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
