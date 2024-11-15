@@ -17,6 +17,17 @@
                 <li>{{ $site->name }}</li>
             @endforeach
         </ul>
+        <div class="form-group">
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" class="form-control" value="{{ today()->toDateString() }}">
+        </div>
+
+        <div class="form-group">
+            <label for="until-date">Until Date:</label>
+            <input type="date" id="until-date" class="form-control" value="{{ today()->toDateString() }}">
+        </div>
+
+        <button id="download-button" class="btn btn-secondary">Download</button> 
 
         <div class="form-group">
             <label for="time-interval">Time Interval:</label>
@@ -73,18 +84,7 @@
                     </div>
                 </div>
 
-                <div class="mb-3 d-flex justify-content-between">
-                    <div class="form-group">
-                        <label for="start-date">Start Date:</label>
-                        <input type="date" id="start-date" class="form-control" value="{{ today()->toDateString() }}">
-                    </div>
-        
-                    <div class="form-group">
-                        <label for="until-date">Until Date:</label>
-                        <input type="date" id="until-date" class="form-control" value="{{ today()->toDateString() }}">
-                    </div>
-                    <button id="download-button-{{ $device->id }}" class="btn btn-secondary">Download {{ $device->name }} Data</button>
-                </div>
+                <button id="download-button-{{ $device->id }}" class="btn btn-secondary">Download {{ $device->name }} Data</button>
 
                 <script>
                     // Event listener for the "Download" button
@@ -105,6 +105,19 @@
                 </script>
             @endforeach
         </div>
+
+        <div class="form-group">
+            <label for="time-interval">Time Interval:</label>
+            <select id="time-interval" class="form-control">
+                <option value="10">Last 10 hours</option>
+                <option value="1">Last 1 hour</option>
+                <option value="24">Last 24 hours</option>
+                <option value="168">Last 7 days</option>
+                <option value="720">Last 30 days</option>
+            </select>
+        </div>
+
+        <button id="update-chart-button" class="btn btn-primary">Update Chart</button>
     @endif
 @stop
 

@@ -30,6 +30,13 @@ class AssetController extends Controller
 
         return view('assets.index', compact('assets'));
     }
+
+    public function show(Asset $asset) 
+    {
+        $asset->load('status'); // Eager load the status relationship
+        return view('assets.show', compact('asset'));
+    }
+
     public function create()
     {
         $statuses = Status::orderBy('name', 'asc')->get(); // Fetch statuses sorted by name

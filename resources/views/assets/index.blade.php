@@ -13,19 +13,26 @@
         </ul>
     </div>
     @endif
-    <div class="mb-3 d-flex justify-content-between">
-        <a href="{{ route('assets.create') }}" class="btn btn-primary">Add Asset</a>
-        <form action="{{ route('assets.index') }}" method="GET" class="form-inline">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Search assets..." value="{{ request('search') }}">
-                <div class="input-group-append">
-                    <button class="btn btn-secondary" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
+    {{-- @if (auth()->user()->hasRole('Administrator') || auth()->user()->hasRole('Manager'))
+        @include('partials.add-and-search', ['resource' => 'assets', 'title' => 'Asset'])
+    @endif --}}
+
+    @if (auth()->user()->hasRole('Administrator') || auth()->user()->hasRole('Manager'))
+        <div class="mb-3 d-flex justify-content-between">
+            <a href="{{ route('assets.create') }}" class="btn btn-primary">Add Asset</a>
+            <form action="{{ route('assets.index') }}" method="GET" class="form-inline">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search assets..." value="{{ request('search') }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
+    @endif
+
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -51,7 +58,7 @@
                     <td>{{ $asset->note3 }}</td>
                     <td>
                         @include('partials.actions', ['model' => $asset, 'resource' => 'assets'])
-                        <a href="{{ route('assets.dashboard', $asset) }}" class="btn btn-info">View Data</a>
+                        <a href="{{ route('assets.dashboard', $asset->id) }}" class="btn btn-info">Dashboard</a>
                     </td>
                 </tr>
             @endforeach

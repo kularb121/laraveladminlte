@@ -13,21 +13,23 @@
         </div>
     @endif
 
-    <div class="mb-3">
-        <div class="mb-3 d-flex justify-content-between">
-            <a href="{{ route('users.create') }}" class="btn btn-primary">Add User</a>
-            <form action="{{ route('users.index') }}" method="GET">
-                <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search users..." value="{{ request('search') }}">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-search"></i> Search
-                        </button>
+    @if (auth()->user()->hasRole('Administrator') || auth()->user()->hasRole('Manager'))
+        <div class="mb-3">
+            <div class="mb-3 d-flex justify-content-between">
+                <a href="{{ route('users.create') }}" class="btn btn-primary">Add User</a>
+                <form action="{{ route('users.index') }}" method="GET">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Search users..." value="{{ request('search') }}">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    @endif
 
     <table class="table table-bordered">
         <thead>

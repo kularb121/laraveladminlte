@@ -13,19 +13,21 @@
         </ul>
     </div>
     @endif
-    <div class="mb-3 d-flex justify-content-between">
-        <a href="{{ route('iotapplications.create') }}" class="btn btn-primary">Add IoT Application</a>
-        <form action="{{ route('iotapplications.index') }}" method="GET" class="form-inline">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Search IoT applications..." value="{{ request('search') }}">
-                <div class="input-group-append">
-                    <button class="btn btn-secondary" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
+    @if (auth()->user()->hasRole('Administrator') || auth()->user()->hasRole('Manager'))
+        <div class="mb-3 d-flex justify-content-between">
+            <a href="{{ route('iotapplications.create') }}" class="btn btn-primary">Add IoT Application</a>
+            <form action="{{ route('iotapplications.index') }}" method="GET" class="form-inline">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search IoT applications..." value="{{ request('search') }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
+    @endif
     <table class="table table-bordered table-striped">
         <thead>
             <tr>

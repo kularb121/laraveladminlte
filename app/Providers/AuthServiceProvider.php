@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Providers;
-
 use App\Models\User;
+use App\Models\Asset;
 use App\Models\Workflow;
 use App\Policies\UserPolicy;
+use App\Policies\AssetPolicy;
 use App\Policies\WorkflowPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -17,7 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+
+        Asset::class => AssetPolicy::class,
         User::class => UserPolicy::class, // Add this line
         Workflow::class => WorkflowPolicy::class,
     ];

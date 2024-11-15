@@ -18,6 +18,7 @@ use App\Http\Controllers\IotApplicationController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\UserRegistrationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\NewPasswordController;
 
 Route::get('/', function () {
     return view('adminlte::page');
@@ -30,6 +31,10 @@ Route::get('/login', [AuthenticatedSessionController::class, 'create'])
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])
     ->middleware('guest');
 
+Route::post('/reset-password', [NewPasswordController::class, 'store'])
+    ->middleware('guest')
+    ->name('password.store');
+
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
@@ -38,7 +43,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Resources using UUIDs
     Route::resource('sites', SiteController::class)->parameters(['sites' => 'site:uuid']);
-    Route::resource('assets', AssetController::class)->parameters(['assets' => 'asset:uuid']);
+    // Route::resource('assets', AssetController::class)->parameters(['assets' => 'asset:uuid']);
+ 
+    Route::resource('assets', AssetController::class)
+        ->parameters(['assets' => 'asset:uuid'])
+        ->middleware(['can:create,App\Models\Asset', 'can:edit,asset', 'can:delete,asset']); 
+
     Route::resource('devices', DeviceController::class)->parameters(['devices' => 'device:uuid']);
     Route::resource('customers', CustomerController::class)->parameters(['customers' => 'customer:uuid'])->except(['show']); 
 
@@ -70,7 +80,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users/{user}/edit-role', [UserController::class, 'editRole'])->name('users.editRole');
     Route::put('/users/{user}/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
     Route::resource('users', UserController::class)->parameters(['users' => 'user:uuid']); 
-        
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -103,7 +113,6 @@ Route::middleware(['auth', 'can:edit-user-roles'])->prefix('admin')->name('admin
     Route::get('/users/{user}/edit-role', [UserController::class, 'editRole'])->name('users.editRole');
     Route::put('/users/{user}/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
     Route::get('/users/manage-roles', [UserController::class, 'manageRoles'])->name('users.manage-roles');
-
 });
 
 require __DIR__.'/auth.php';

@@ -16,22 +16,21 @@
         </ul>
     </div>
     @endif
-    {{-- <div class="mb-3">
-        <a href="{{ route('devices.create') }}" class="btn btn-primary">Add Device</a>
-    </div> --}}
-    <div class="mb-3 d-flex justify-content-between">
-        <a href="{{ route('devices.create') }}" class="btn btn-primary">Add Device</a>
-        <form action="{{ route('devices.index') }}" method="GET" class="form-inline">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Search devices..." value="{{ request('search') }}">
-                <div class="input-group-append">
-                    <button class="btn btn-secondary" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
+    @if (auth()->user()->hasRole('Administrator') || auth()->user()->hasRole('Manager'))
+        <div class="mb-3 d-flex justify-content-between">
+            <a href="{{ route('devices.create') }}" class="btn btn-primary">Add Device</a>
+            <form action="{{ route('devices.index') }}" method="GET" class="form-inline">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search devices..." value="{{ request('search') }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
+    @endif
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
